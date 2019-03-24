@@ -3,7 +3,7 @@ const {BrowserWindow} = require('electron')
 
 // Default window settings
 const defaultProps = {
-    width: 500,
+    width: 800,
     height: 800,
     show: false
 }
@@ -15,7 +15,7 @@ class Window extends BrowserWindow {
 
         // Load html and open devtools
         this.loadFile(file)
-        this.webContents.openDevTools()
+        // this.webContents.openDevTools()
 
         // Show this window when ready (to prevent flickering)
         this.once('ready-to-show', () => {

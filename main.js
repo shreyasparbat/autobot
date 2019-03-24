@@ -1,14 +1,20 @@
 // Library imports
-const {app} = require('electron')
+const path = require('path')
+const {app, ipcMain} = require('electron')
+
+// Custom imports
+const Window = require('./Window')
 
 /**
  * Used to initialise the main browser window
  * and carry out all other tasks
  */
-function main() {
+const main = () => {
     let mainWindow = new Window({
-        file: 'index.html'
+        file: path.join('renderer', 'index.html')
     })
+
+    // Add 
 }
 
 // This method will be called when Electron has finished
