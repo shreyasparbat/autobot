@@ -1,54 +1,82 @@
 # Library imports
 import pyHook
 import pythoncom
+import json
+
+
+def logEvents():
+    # Create a hook manager
+    hm = pyHook.HookManager()
+
+    # Watch for all mouse and keyboard events
+    hm.MouseAll = OnMouseEvent
+    hm.KeyDown = OnKeyboardEvent
+
+    # Set the hooks
+    hm.HookMouse()
+    hm.HookKeyboard()
+
+    # Wait forever (using windows message loop)
+    try:
+        pythoncom.PumpMessages()
+    except:
+        exit(0)  
+
 
 # Called when mouse events are received
 def OnMouseEvent(event):
-    # Print event specific info
-    print('MessageName:', event.MessageName)
-    print('Message:', event.Message)
-    print('Time:', event.Time)
-    print('Window:', event.Window)
-    print('WindowName:', event.WindowName)
-    print('Position:', event.Position)
-    print('Wheel:', event.Wheel)
-    print('Injected:', event.Injected)
-    print('---')
+    # Check for all events except 'mouse move'
+    if event.MessageName != 'mouse move':
+        # Create dictionary of event specific info and add
+        # to event sequence
+        eventSequence.append({
+            'type': 'mouse',
+            'messageName': event.MessageName,
+            'message': event.Message,
+            'time': event.Time,
+            'window': event.Window,
+            'windowName': event.WindowName,
+            'position': event.Position,
+            'wheel': event.Wheel,
+            'injected': event.Injected
+        })
 
     # return True to pass the event to other handlers
     return True
 
+
 def OnKeyboardEvent(event):
-    print('MessageName:', event.MessageName)
-    print('Message:', event.Message)
-    print('Time:', event.Time)
-    print('Window:', event.Window)
-    print('WindowName:', event.WindowName)
-    print('Ascii:', event.Ascii, chr(event.Ascii))
-    print('Key:', event.Key)
-    print('KeyID:', event.KeyID)
-    print('ScanCode:', event.ScanCode)
-    print('Extended:', event.Extended)
-    print('Injected:', event.Injected)
-    print('Alt', event.Alt)
-    print('Transition', event.Transition)
-    print('---')
+    # Create dictionary of event specific info and add
+    # to event sequence
+    eventSequence.append({
+        'type': 'keyboard',
+        'messageName': event.MessageName,
+        'message': event.Message,
+        'time': event.Time,
+        'window': event.Window,
+        'windowName': event.WindowName,
+        'ascii': event.Ascii,
+        'key': event.Key,
+        'keyID': event.KeyID,
+        'scanCode': event.ScanCode,
+        'extended': event.Extended,
+        'injected': event.Injected,
+        'alt': event.Alt,
+        'transition': event.Transition
+    })
+
+    # Save eventSequence and exit if escape pressed
+    if event.Key == 'Escape':
+        exit(0)
 
     # Return True to pass the event to other handlers
     return True
 
-# Create a hook manager
-hm = pyHook.HookManager()
 
-# Watch for all mouse events
-# hm.MouseAll = OnMouseEvent
-
-# Watch for all keybord events
-hm.keyDown = OnKeyboardEvent
-
-# Set the hooks
-hm.HookMouse()
-hm.HookKeyboard()
-
-# Wait forever (using windows message loop)
-pythoncom.PumpMessages()
+# Run if in main
+if __name__ == '__main__':
+    # Initialise global list of events
+    eventSequence = []
+    
+    # Start logging events
+    logEvents()
