@@ -3,36 +3,36 @@ import pyautogui
 import json
 
 # Initialise global list of events
-eventSequence = []
+event_sequence = []
 
 
 # Execute events
-def executeBot(botFile):
+def execute_bot(bot_file):
     # Load bot
-    with open(botFile, 'r') as bot:
-        eventSequence = json.load(bot)
+    with open(bot_file, 'r') as bot:
+        event_sequence = json.load(bot)
 
     # Execute each event
-    for event in enumerate(eventSequence, i):
+    for event in event_sequence:
         # For mouse events
         if event['type'] == 'mouse':
-            executeMouseEvent(event, eventSequence[i + 1])
+            execute_mouse_event(event)
 
         # For keyboard events
         if event['type'] == 'keyboard':
-            executeKeyboardEvent(event, eventSequence[i + 1])
+            execute_keyboard_event(event)
 
 
 # Execute one mouse event
-def executeMouseEvent(event, nextEvent):
+def execute_mouse_event(event):
     pass
 
 
 # Execute one mouse event
-def executeKeyboardEvent(event, nextEvent):
+def execute_keyboard_event(event):
     pyautogui.typewrite(event['key'])
 
 
 if __name__ == '__main__':
     # Execute events
-    executeBot('..\\tmpBots\\sample.json')
+    execute_bot('..\\tmpBots\\sample.json')

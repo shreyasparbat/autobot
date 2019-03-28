@@ -5,38 +5,35 @@ import pythoncom
 import json
 
 # Custom imports
-from utils import handleSpecialKeys
+from utils import handle_special_keys
 
 # Initialise global list of events
-eventSequence = []
+event_sequence = []
 
 
-def logEvents():
+def log_events():
     # Create a hook manager
     hm = pyHook.HookManager()
 
     # Watch for all mouse and keyboard events
-    hm.MouseAll = OnMouseEvent
-    hm.KeyDown = OnKeyboardEvent
+    hm.MouseAll = on_mouse_event
+    hm.KeyDown = on_keyboard_event
 
     # Set the hooks
     hm.HookMouse()
     hm.HookKeyboard()
 
     # Wait forever (using windows message loop)
-    try:
-        pythoncom.PumpMessages()
-    except:
-        exit(1)
+    pythoncom.PumpMessages()
 
 
 # Called when mouse events are received
-def OnMouseEvent(event):
+def on_mouse_event(event):
     # Check for all events except 'mouse move'
     if event.MessageName != 'mouse move':
         # Temporarily save 'mouse left down' event
         if event.MessageName == 'mouse left down':
-            eventSequence.append({
+            event_sequence.append({
                 'type': 'mouse',
                 'messageName': event.MessageName,
                 'time': event.Time,
@@ -48,32 +45,32 @@ def OnMouseEvent(event):
         # Check for 'drag' action and save appropriately
         if event.MessageName == 'mouse left up':
             # If press down was not in the same area
-            if eventSequence and eventSequence[-1]['type'] == 'mouse' and \
-                    (eventSequence[-1]['position'][0] not in \
+            if event_sequence and event_sequence[-1]['type'] == 'mouse' and \
+                    (event_sequence[-1]['position'][0] not in \
                     range(event.Position[0] - 10, event.Position[0] + 11) or \
-                    eventSequence[-1]['position'][1] not in \
+                    event_sequence[-1]['position'][1] not in \
                     range(event.Position[1] - 10, event.Position[1] + 11)):
                 # Save 'drag' action
-                eventSequence.append({
+                event_sequence.append({
                     'type': 'mouse',
                     'messageName': 'drag',
                     'time': event.Time,
                     'window': event.Window,
                     'windowName': event.WindowName,
-                    'fromPosition': eventSequence[-1]['position'],
+                    'fromPosition': event_sequence[-1]['position'],
                     'toPosition': event.Position
                 })
 
                 # Delete previous 'mouse left down' event
-                del eventSequence[-2]
+                del event_sequence[-2]
             else:
                 # Rename previous save
-                eventSequence[-1]['messageName'] = 'left click'
+                event_sequence[-1]['messageName'] = 'left click'
         
         # Else if right button clicked
         if event.MessageName == 'mouse right down':
             # Save as right click
-            eventSequence.append({
+            event_sequence.append({
                 'type': 'mouse',
                 'messageName': 'right click',
                 'time': event.Time,
@@ -86,34 +83,35 @@ def OnMouseEvent(event):
     return True
 
 
-
 # Called when keyboard events are received
-def OnKeyboardEvent(event):
+def on_keyboard_event(event):
     # Clean up when escape is pressed
     if event.Key == 'Escape':
-        ################# TODO: shift saving logic to electron
+
+        # TODO: shift saving logic to electron
         # Ask for bot name
         botName = input('Save as: ')
         
-        # Create JSON file and write eventSequence to it
+        # Create JSON file and write event_sequence to it
         with open('..\\tmpBots\\' + botName + '.json', 'w') as writeFile:
-            json.dump(eventSequence, writeFile, indent=4)
-        ##################
+            json.dump(event_sequence, writeFile, indent=4)
+        # TODO: shift saving logic to electron
+
         # Exit script
         exit(0)
 
     # If ctrl pressed
     if pyHook.GetKeyState(HookConstants.VKeyToID('VK_CONTROL')):
         # If prev was ctrl as well
-        if eventSequence and eventSequence[-1]['type'] == 'keyboard' and \
-                eventSequence[-1]['key'] == 'ctrlleft':
+        if event_sequence and event_sequence[-1]['type'] == 'keyboard' and \
+                event_sequence[-1]['key'] == 'ctrlleft':
             # If not this key is ctrl
             if not (event.Key == 'Lcontrol' or event.Key == 'Rcontrol'):
                 # Append to prev entry's nextKeys list
-                eventSequence[-1]['nextKeys'].append(event.Key.lower())
+                event_sequence[-1]['nextKeys'].append(event.Key.lower())
         else:
             # Store this event with key as ctrl and nextKey as this key
-            eventSequence.append({
+            event_sequence.append({
                 'type': 'keyboard',
                 'messageName': event.MessageName,
                 'time': event.Time,
@@ -126,15 +124,15 @@ def OnKeyboardEvent(event):
     # Elif shift pressed
     elif pyHook.GetKeyState(HookConstants.VKeyToID('VK_SHIFT')):
         # If prev was shift as well
-        if eventSequence and eventSequence[-1]['type'] == 'keyboard' and \
-                eventSequence[-1]['key'] == 'shiftleft':
+        if event_sequence and event_sequence[-1]['type'] == 'keyboard' and \
+                event_sequence[-1]['key'] == 'shiftleft':
             # If not this key is shift
-            if (not (event.Key == 'Lshift' or event.Key == 'Rshift')):
+            if not (event.Key == 'Lshift' or event.Key == 'Rshift'):
                 # Append to prev entry's nextKeys list
-                eventSequence[-1]['nextKeys'].append(event.Key.lower())
+                event_sequence[-1]['nextKeys'].append(event.Key.lower())
         else:
             # Store this event with key as shift and nextKey as this key
-            eventSequence.append({
+            event_sequence.append({
                 'type': 'keyboard',
                 'messageName': event.MessageName,
                 'time': event.Time,
@@ -147,7 +145,7 @@ def OnKeyboardEvent(event):
     # For non ctrl/shift long-press situations
     else:
         # Handle special keys
-        eventSequence.append(handleSpecialKeys(event))
+        event_sequence.append(handle_special_keys(event))
 
     # Return True to pass the event to other handlers
     return True
@@ -156,8 +154,4 @@ def OnKeyboardEvent(event):
 # Run if in main
 if __name__ == '__main__':
     # Start logging events
-    try:
-        logEvents()
-    except:
-        exit(1)
-l
+    log_events()

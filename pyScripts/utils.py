@@ -1,5 +1,5 @@
 # Convert special key inputs from pyhook to pyautogui nomenclature
-def handleSpecialKeys(event):
+def handle_special_keys(event):
     # If not a capital letter
     if int(event.Ascii) < 65 or int(event.Ascii) > 90:
         # Make all characters lowercase (handles mose cases)
@@ -8,7 +8,7 @@ def handleSpecialKeys(event):
         key = event.Key
 
     # Define pyhook-pyautogui dict
-    conversionDict = {
+    conversion_dict = {
         'lshift': 'shiftleft',
         'rshift': 'shiftleft',
         'lcontrol': 'ctrlleft',
@@ -27,11 +27,11 @@ def handleSpecialKeys(event):
     }
 
     # Replace special keys with pyautogui equivalent
-    if key in conversionDict:
-        key = conversionDict[key]
+    if key in conversion_dict:
+        key = conversion_dict[key]
 
     # Final event to return
-    finalEvent = {
+    final_event = {
         'type': 'keyboard',
         'messageName': event.MessageName,
         'time': event.Time,
@@ -43,6 +43,6 @@ def handleSpecialKeys(event):
     
     # If key is ctrl/shift, include nextKeys attribute
     if key == 'shiftleft' or key == 'ctrlleft':
-        finalEvent['nextKeys'] = []
+        final_event['nextKeys'] = []
 
-    return finalEvent
+    return final_event
