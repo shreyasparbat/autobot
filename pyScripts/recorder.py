@@ -48,9 +48,22 @@ def OnMouseEvent(event):
     return True
 
 
+
 def OnKeyboardEvent(event):
-    # Create dictionary of event specific info and add
-    # to event sequence
+    # Clean up when escape is pressed
+    if event.Key == 'Escape':
+        ############# TODO: shift saving logic to electron
+        # Ask for bot name
+        botName = input('Save as: ')
+        
+        # Create JSON file and write eventSequence to it
+        with open('..\\tmpBots\\' + botName + '.json', 'w') as writeFile:
+            json.dump(eventSequence, writeFile, indent=4)
+        ##################
+        # Exit script
+        exit(0)
+
+    # Create dictionary of event specific info and add to event sequence
     eventSequence.append({
         'type': 'keyboard',
         'messageName': event.MessageName,
@@ -67,19 +80,6 @@ def OnKeyboardEvent(event):
         'alt': event.Alt,
         'transition': event.Transition
     })
-
-    # Clean up when escape is pressed
-    if event.Key == 'Escape':
-        ############# TODO: shift saving logic to electron
-        # Ask for bot name
-        botName = input('Save as: ')
-        
-        # Create JSON file and write eventSequence to it
-        with open('..\\tmpBots\\' + botName + '.json', 'w') as writeFile:
-            json.dump(eventSequence, writeFile, indent=4)
-        ##################
-        # Exit script
-        exit(0)
 
     # Return True to pass the event to other handlers
     return True

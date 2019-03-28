@@ -6,32 +6,31 @@ import json
 eventSequence = []
 
 
+# Execute events
 def executeBot(botFile):
     # Load bot
     with open(botFile, 'r') as bot:
         eventSequence = json.load(bot)
 
-    # Remove last 'escape key' event
-    del eventSequence[-1]
-
     # Execute each event
     for event in enumerate(eventSequence, i):
-        # For mouse events (next event also sent
-        # to identify drag and drop events)
+        # For mouse events
         if event['type'] == 'mouse':
             executeMouseEvent(event, eventSequence[i + 1])
 
         # For keyboard events
         if event['type'] == 'keyboard':
-            executeKeyboardEvent(event)
+            executeKeyboardEvent(event, eventSequence[i + 1])
 
 
+# Execute one mouse event
 def executeMouseEvent(event, nextEvent):
-    
-
-
-def executeKeyboardEvent(event):
     pass
+
+
+# Execute one mouse event
+def executeKeyboardEvent(event, nextEvent):
+    pyautogui.typewrite(event['key'])
 
 
 if __name__ == '__main__':
