@@ -1,6 +1,5 @@
 # Library imports
 import pyHook
-from pyHook import HookManager
 from pyHook.HookManager import HookConstants
 import pythoncom
 import json
@@ -74,8 +73,10 @@ def OnKeyboardEvent(event):
         # If prev was ctrl as well
         if eventSequence and eventSequence[-1]['type'] == 'keyboard' and \
                 eventSequence[-1]['key'] == 'ctrlleft':
-            # Append to prev entry's nextKeys list
-            eventSequence[-1]['nextKeys'].append(event['Key'])
+            # If not this key is ctrl
+            if not (event.Key == 'Lcontrol' or event.Key == 'Rcontrol'):
+                # Append to prev entry's nextKeys list
+                eventSequence[-1]['nextKeys'].append(event.Key.lower())
         else:
             # Store this event with key as ctrl and nextKey as this key
             eventSequence.append({
@@ -89,14 +90,15 @@ def OnKeyboardEvent(event):
                 'key': 'ctrlleft',
                 'nextKeys': []
             })
-    # Elif shift pressed and this key is not a capital letter
-    elif pyHook.GetKeyState(HookConstants.VKeyToID('VK_SHIFT')) and \
-            (int(event.Ascii) < 65 or int(event.Ascii) > 90):
+    # Elif shift pressed
+    elif pyHook.GetKeyState(HookConstants.VKeyToID('VK_SHIFT')):
         # If prev was shift as well
         if eventSequence and eventSequence[-1]['type'] == 'keyboard' and \
                 eventSequence[-1]['key'] == 'shiftleft':
-            # Append to prev entry's nextKeys list
-            eventSequence[-1]['nextKeys'].append(event['Key'])
+            # If not this key is shift
+            if (not (event.Key == 'Lshift' or event.Key == 'Rshift')):
+                # Append to prev entry's nextKeys list
+                eventSequence[-1]['nextKeys'].append(event.Key.lower())
         else:
             # Store this event with key as shift and nextKey as this key
             eventSequence.append({
@@ -115,16 +117,6 @@ def OnKeyboardEvent(event):
         # Handle special keys
         eventSequence.append(handleSpecialKeys(event))
 
-    # # Check if previous event was shift or ctrl
-    # holdKeyList = ['shiftleft', 'shiftright', 'ctrlleft', 'ctrlright']
-    # if eventSequence and eventSequence[-1]['type'] == 'keyboard' and \
-    #         eventSequence[-1]['key'] in holdKeyList:
-    #     # Add this event to previous event's dict entry
-    #     eventSequence[-1]['nextKey'] = event.Key
-    # else:
-    #     # Append cleaned event to event sequence
-    #     eventSequence.append(handleSpecialKeys(event))
-
     # Return True to pass the event to other handlers
     return True
 
@@ -136,3 +128,4 @@ if __name__ == '__main__':
         logEvents()
     except:
         exit(1)
+l

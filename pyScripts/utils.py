@@ -30,7 +30,8 @@ def handleSpecialKeys(event):
     if key in conversionDict:
         key = conversionDict[key]
 
-    return {
+    # Final event to return
+    finalEvent = {
         'type': 'keyboard',
         'messageName': event.MessageName,
         'message': event.Message,
@@ -38,5 +39,11 @@ def handleSpecialKeys(event):
         'window': event.Window,
         'windowName': event.WindowName,
         'ascii': event.Ascii,
-        'key': key,
+        'key': key
     }
+    
+    # If key is ctrl/shift, include nextKeys attribute
+    if key == 'shiftleft' or key == 'ctrlleft':
+        finalEvent['nextKeys'] = []
+
+    return finalEvent
