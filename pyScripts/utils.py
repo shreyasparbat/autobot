@@ -1,25 +1,42 @@
-def cleanMouseInput(event):
-    pass
-
-
-def cleanKeyboardInput(event):
-    # Make all characters lowercase (handles mose cases)
-    key = event['key'].lower()
+# Convert special key inputs from pyhook to pyautogui nomenclature
+def handleSpecialKeys(event):
+    # If not a capital letter
+    if int(event.Ascii) < 65 or int(event.Ascii) > 90:
+        # Make all characters lowercase (handles mose cases)
+        key = event.Key.lower()
+    else:
+        key = event.Key
 
     # Define pyhook-pyautogui dict
     conversionDict = {
         'lshift': 'shiftleft',
-        'rshift': 'shiftright',
+        'rshift': 'shiftleft',
         'lcontrol': 'ctrlleft',
-        'rcontrol': 'ctrlright',
+        'rcontrol': 'ctrlleft',
         'lmenu': 'altleft',
-        'rmenu': 'altright',
+        'rmenu': 'altleft',
         'back': 'backspace',
         'prior': 'pageup',
-        'next', 'pagedown',
+        'next': 'pagedown',
         'volume_up': 'volumeup',
         'volume_down': 'volumedown',
         'volume_mute': 'volumemute',
         'capital': 'capslock',
-        'lwin': 'winleft'
+        'lwin': 'winleft',
+        'rwin': 'winleft'
+    }
+
+    # Replace special keys with pyautogui equivalent
+    if key in conversionDict:
+        key = conversionDict[key]
+
+    return {
+        'type': 'keyboard',
+        'messageName': event.MessageName,
+        'message': event.Message,
+        'time': event.Time,
+        'window': event.Window,
+        'windowName': event.WindowName,
+        'ascii': event.Ascii,
+        'key': key,
     }
