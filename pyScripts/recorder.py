@@ -34,19 +34,53 @@ def logEvents():
 def OnMouseEvent(event):
     # Check for all events except 'mouse move'
     if event.MessageName != 'mouse move':
-        # Create dictionary of event specific info and append
-        # to event sequence
-        eventSequence.append({
-            'type': 'mouse',
-            'messageName': event.MessageName,
-            'message': event.Message,
-            'time': event.Time,
-            'window': event.Window,
-            'windowName': event.WindowName,
-            'position': event.Position,
-            'wheel': event.Wheel,
-            'injected': event.Injected
-        })
+        # Temporarily save 'mouse left down' event
+        if event.MessageName == 'mouse left down':
+            eventSequence.append({
+                'type': 'mouse',
+                'messageName': event.MessageName,
+                'time': event.Time,
+                'window': event.Window,
+                'windowName': event.WindowName,
+                'position': event.Position
+            })
+        
+        # Check for 'drag' action and save appropriately
+        if event.MessageName == 'mouse left up':
+            # If press down was not in the same area
+            if eventSequence and eventSequence[-1]['type'] == 'mouse' and \
+                    (eventSequence[-1]['position'][0] not in \
+                    range(event.Position[0] - 10, event.Position[0] + 11) or \
+                    eventSequence[-1]['position'][1] not in \
+                    range(event.Position[1] - 10, event.Position[1] + 11)):
+                # Save 'drag' action
+                eventSequence.append({
+                    'type': 'mouse',
+                    'messageName': 'drag',
+                    'time': event.Time,
+                    'window': event.Window,
+                    'windowName': event.WindowName,
+                    'fromPosition': eventSequence[-1]['position'],
+                    'toPosition': event.Position
+                })
+
+                # Delete previous 'mouse left down' event
+                del eventSequence[-2]
+            else:
+                # Rename previous save
+                eventSequence[-1]['messageName'] = 'left click'
+        
+        # Else if right button clicked
+        if event.MessageName == 'mouse right down':
+            # Save as right click
+            eventSequence.append({
+                'type': 'mouse',
+                'messageName': 'right click',
+                'time': event.Time,
+                'window': event.Window,
+                'windowName': event.WindowName,
+                'position': event.Position
+            })
 
     # return True to pass the event to other handlers
     return True
@@ -82,7 +116,6 @@ def OnKeyboardEvent(event):
             eventSequence.append({
                 'type': 'keyboard',
                 'messageName': event.MessageName,
-                'message': event.Message,
                 'time': event.Time,
                 'window': event.Window,
                 'windowName': event.WindowName,
@@ -104,7 +137,6 @@ def OnKeyboardEvent(event):
             eventSequence.append({
                 'type': 'keyboard',
                 'messageName': event.MessageName,
-                'message': event.Message,
                 'time': event.Time,
                 'window': event.Window,
                 'windowName': event.WindowName,

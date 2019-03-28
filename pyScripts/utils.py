@@ -34,7 +34,6 @@ def handleSpecialKeys(event):
     finalEvent = {
         'type': 'keyboard',
         'messageName': event.MessageName,
-        'message': event.Message,
         'time': event.Time,
         'window': event.Window,
         'windowName': event.WindowName,
