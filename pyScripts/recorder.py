@@ -3,6 +3,9 @@ import pyHook
 import pythoncom
 import json
 
+# Initialise global list of events
+eventSequence = []
+
 
 def logEvents():
     # Create a hook manager
@@ -84,9 +87,6 @@ def OnKeyboardEvent(event):
 
 # Run if in main
 if __name__ == '__main__':
-    # Initialise global list of events
-    eventSequence = []
-
     # Start logging events
     try:
         logEvents()
