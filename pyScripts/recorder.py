@@ -20,7 +20,7 @@ def logEvents():
     try:
         pythoncom.PumpMessages()
     except:
-        exit(1)  
+        exit(1)
 
 
 # Called when mouse events are received
@@ -67,13 +67,14 @@ def OnKeyboardEvent(event):
 
     # Clean up when escape is pressed
     if event.Key == 'Escape':
+        ############# TODO: shift saving logic to electron
         # Ask for bot name
         botName = input('Save as: ')
         
         # Create JSON file and write eventSequence to it
-        with open('../tmpBots/' + botName + '.json', 'w') as writeFile:
-            json.dump(eventSequence, writeFile)
-        
+        with open('..\\tmpBots\\' + botName + '.json', 'w') as writeFile:
+            json.dump(eventSequence, writeFile, indent=4)
+        ##################
         # Exit script
         exit(0)
 
@@ -85,6 +86,9 @@ def OnKeyboardEvent(event):
 if __name__ == '__main__':
     # Initialise global list of events
     eventSequence = []
-    
+
     # Start logging events
-    logEvents()
+    try:
+        logEvents()
+    except:
+        exit(1)
