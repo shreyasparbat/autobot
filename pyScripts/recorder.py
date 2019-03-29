@@ -31,53 +31,75 @@ def log_events():
 def on_mouse_event(event):
     # Check for all events except 'mouse move'
     if event.MessageName != 'mouse move':
-        # Temporarily save 'mouse left down' event
-        if event.MessageName == 'mouse left down':
-            event_sequence.append({
-                'type': 'mouse',
-                'messageName': event.MessageName,
-                'time': event.Time,
-                'window': event.Window,
-                'windowName': event.WindowName,
-                'position': event.Position
-            })
-        
-        # Check for 'drag' action and save appropriately
-        if event.MessageName == 'mouse left up':
-            # If press down was not in the same area
-            if event_sequence and event_sequence[-1]['type'] == 'mouse' and \
-                    (event_sequence[-1]['position'][0] not in \
-                    range(event.Position[0] - 10, event.Position[0] + 11) or \
-                    event_sequence[-1]['position'][1] not in \
-                    range(event.Position[1] - 10, event.Position[1] + 11)):
-                # Save 'drag' action
-                event_sequence.append({
-                    'type': 'mouse',
-                    'messageName': 'drag',
-                    'time': event.Time,
-                    'window': event.Window,
-                    'windowName': event.WindowName,
-                    'fromPosition': event_sequence[-1]['position'],
-                    'toPosition': event.Position
-                })
+        # Check button
+        if 'right' in event.MessageName:
+            button = 'right'
+        if 'left' in event.MessageName:
+            button = 'left'
 
-                # Delete previous 'mouse left down' event
-                del event_sequence[-2]
-            else:
-                # Rename previous save
-                event_sequence[-1]['messageName'] = 'left click'
-        
-        # Else if right button clicked
-        if event.MessageName == 'mouse right down':
-            # Save as right click
-            event_sequence.append({
-                'type': 'mouse',
-                'messageName': 'right click',
-                'time': event.Time,
-                'window': event.Window,
-                'windowName': event.WindowName,
-                'position': event.Position
-            })
+        # Check direction
+        if 'down' in event.MessageName:
+            direction = 'down'
+        if 'up' in event.MessageName:
+            direction = 'up'
+
+        # Append event to sequence
+        event_sequence.append({
+            'type': 'mouse',
+            'button': button,
+            'direction': direction,
+            'time': event.Time,
+            'window': event.Window,
+            'windowName': event.WindowName,
+            'position': event.Position
+        })
+        # # Temporarily save 'mouse left down' event
+        # if event.MessageName == 'mouse left down':
+        #     event_sequence.append({
+        #         'type': 'mouse',
+        #         'messageName': event.MessageName,
+        #         'time': event.Time,
+        #         'window': event.Window,
+        #         'windowName': event.WindowName,
+        #         'position': event.Position
+        #     })
+        #
+        # # Check for 'drag' action and save appropriately
+        # if event.MessageName == 'mouse left up':
+        #     # If press down was not in the same area
+        #     if event_sequence and event_sequence[-1]['type'] == 'mouse' and \
+        #             (event_sequence[-1]['position'][0] not in \
+        #             range(event.Position[0] - 10, event.Position[0] + 11) or \
+        #             event_sequence[-1]['position'][1] not in \
+        #             range(event.Position[1] - 10, event.Position[1] + 11)):
+        #         # Save 'drag' action
+        #         event_sequence.append({
+        #             'type': 'mouse',
+        #             'messageName': 'drag',
+        #             'time': event.Time,
+        #             'window': event.Window,
+        #             'windowName': event.WindowName,
+        #             'fromPosition': event_sequence[-1]['position'],
+        #             'toPosition': event.Position
+        #         })
+        #
+        #         # Delete previous 'mouse left down' event
+        #         del event_sequence[-2]
+        #     else:
+        #         # Rename previous save
+        #         event_sequence[-1]['messageName'] = 'left click'
+        #
+        # # Else if right button clicked
+        # if event.MessageName == 'mouse right down':
+        #     # Save as right click
+        #     event_sequence.append({
+        #         'type': 'mouse',
+        #         'messageName': 'right click',
+        #         'time': event.Time,
+        #         'window': event.Window,
+        #         'windowName': event.WindowName,
+        #         'position': event.Position
+        #     })
 
     # return True to pass the event to other handlers
     return True
