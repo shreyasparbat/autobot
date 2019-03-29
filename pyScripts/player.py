@@ -22,15 +22,33 @@ def execute_bot(bot_file):
         if event['type'] == 'keyboard':
             execute_keyboard_event(event)
 
+        # Introduce delay
+        pyautogui.PAUSE = 0.25
+
 
 # Execute one mouse event
 def execute_mouse_event(event):
-    pass
+    # If down direction
+    if event['direction'] == 'down':
+        pyautogui.mouseDown(button=event['button'], x=event['position'][0], y=event['position'][1])
+    # If up direction
+    if event['direction'] == 'up':
+        pyautogui.mouseUp(button=event['button'], x=event['position'][0], y=event['position'][1])
 
 
 # Execute one mouse event
 def execute_keyboard_event(event):
-    pyautogui.typewrite(event['key'])
+    # If ctrl/shift
+    if event['key'] == 'shiftleft' or event['key'] == 'ctrlleft':
+        # Press special key
+        pyautogui.keyDown(event['key'])
+
+        # Loop through nextKeys
+        for next_key in event['nextKeys']:
+            pyautogui.press(next_key)
+
+    # For any other key, just press
+    pyautogui.press(event['key'])
 
 
 if __name__ == '__main__':
