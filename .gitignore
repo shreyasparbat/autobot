@@ -216,3 +216,6 @@ dmypy.json
 # Temporary bots created during testing
 tmpBots/
 !tmpBots/.gitkeep
+
+# IDE
+.idea
