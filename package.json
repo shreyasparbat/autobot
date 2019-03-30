@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "electron": "^4.1.0",
-    "electron-store": "^2.0.0"
+    "electron-store": "^2.0.0",
+    "python-shell": "^1.0.7"
   }
 }

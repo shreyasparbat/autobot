@@ -63,15 +63,8 @@ def on_mouse_event(event):
 def on_keyboard_event(event):
     # Clean up when escape is pressed
     if event.Key == 'Escape':
-
-        # TODO: shift saving logic to electron
-        # Ask for bot name
-        botName = input('Save as: ')
-        
-        # Create JSON file and write event_sequence to it
-        with open('..\\tmpBots\\' + botName + '.json', 'w') as writeFile:
-            json.dump(event_sequence, writeFile, indent=4)
-        # TODO: shift saving logic to electron
+        # Send message to NodeJS python-shell using print()
+        print(event_sequence)
 
         # Exit script
         exit(0)
@@ -131,3 +124,10 @@ def on_keyboard_event(event):
 if __name__ == '__main__':
     # Start logging events
     log_events()
+
+        # # Ask for bot name
+        # botName = input('Save as: ')
+
+        # # Create JSON file and write event_sequence to it
+        # with open('..\\tmpBots\\' + botName + '.json', 'w') as writeFile:
+        #     json.dump(event_sequence, writeFile, indent=4)

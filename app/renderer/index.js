@@ -1,5 +1,6 @@
 // Library imports
 const {ipcRenderer} = require('electron')
+const PythonShell = require('python-shell')
 
 // To play bot using text value (i.e. run player.py)
 const playBot = (e) => {
@@ -17,8 +18,11 @@ document.getElementById('recorderBtn').addEventListener('click', () => {
     ipcRenderer.send('minimise-main-window')
 
     // TODO: Run recorder.py
-    // TODO: When recorder replies with a bot, open save as window
-    ipcRenderer.send('save-as-window')
+    const pyshell = new PythonShell('../../pyScripts/recorder.py')
+    pyshell.on('message', (bot) => {
+        // When recorder replies with a bot, open save as window
+        ipcRenderer.send('save-as-window')
+    })
 })
 
 ipcRenderer.on('bots', (event, bots) => {
