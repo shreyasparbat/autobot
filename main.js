@@ -1,6 +1,6 @@
 // Library imports
 const path = require('path')
-const {app, ipcMain} = require('electron/electron')
+const {app, ipcMain} = require('electron')
 
 // Custom imports
 const Window = require('./app/Window')
@@ -15,7 +15,7 @@ const botsData = new DataStore({name: 'Bots Main'})
  */
 const main = () => {
     let mainWindow = new Window({
-        file: path.join('renderer', 'index.html')
+        file: path.join('app', 'renderer', 'index.html')
     })
 
     // Add saveAs window
@@ -49,13 +49,23 @@ const main = () => {
     // Add bot from saveAsWindow to mainWindow
     ipcMain.on('add-bot', (event, bot) => {
         const updatedBots = botsData.addBot(bot).bots
-        mainWindow.send('bots', updatedBots)
+        mainWindow.webContents.send('bots', updatedBots)
     })
 
     // Delete bot from bot list on mainWindow
     ipcMain.on('delete-bot', (event, bot) => {
         const updatedBots = botsData.deleteBot(bot).bots
-        mainWindow.send('bots' ,updatedBots)
+        mainWindow.webContents.send('bots' ,updatedBots)
+    })
+
+    // Minimise main window
+    ipcMain.on('minimise-main-window', () => {
+        mainWindow.hide()
+    })
+
+    // Maximise main window
+    ipcMain.on('maximise-main-window', (event) => {
+        mainWindow.show()
     })
 }
 

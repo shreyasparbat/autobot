@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en-gb">
-    <head>
-        <meta charset="UTF-8">
-        <title>Autobot</title>
-    </head>
-    <body>
-        <h1>Autobot</h1>
-            <script>
-                // You can also require other files to run in this process
-                require('./index.js')
-            </script>
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Autobot</title>
+  </head>
+  <body>
+    <h1>Autobot</h1>
+    <script>
+        require('./index.js')
+    </script>
+
+    <!-- Record button -->
+    <button id="recordBtn" type="button" class="btn">
+      Record!
+    </button>
+
+    <!--    Bot list -->
+    <ul id="botList"></ul>
+  </body>
 </html>
 
 <style>
-    body {
-        font: caption;
-    }
+  body {
+    font: caption;
+  }
 </style>

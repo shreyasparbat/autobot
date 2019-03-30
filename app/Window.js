@@ -1,5 +1,5 @@
 // Import library modules
-const {BrowserWindow} = require('electron/electron')
+const {BrowserWindow} = require('electron')
 
 // Default window settings
 const defaultProps = {
