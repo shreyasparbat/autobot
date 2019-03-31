@@ -8,13 +8,13 @@ const store = new Store()
 // To run recorder.py script
 document.getElementById('recorderBtn').addEventListener('click', () => {
     // Run recorder.py
-    const pyShell = new PythonShell('../../pyScripts/recorder.py')
+    const pyShell = new PythonShell('../../pyScripts/recorder.py', {mode: 'json'})
     pyShell.on('message', (bot) => {
         // Delete previously saved bot
         store.delete('bot')
 
         // Save bot (i.e. the event sequence given by python)
-        store.set('bot', JSON.parse(bot))
+        store.set('bot')
     })
 
     // End input stream and let process exit
@@ -30,6 +30,14 @@ document.getElementById('playBtn').addEventListener('click', () => {
     // Get bot and check if exists
     const bot = store.get('bot')
     if (bot) {
+        // Run player.py
+        const pyShell = new PythonShell('../../pyScripts/player.py', {mode: 'json'})
 
+        // End input stream and let process exit
+        pyShell.end((err) => {
+            if (err) {
+                throw err
+            }
+        })
     }
 })
