@@ -8,20 +8,22 @@ const store = new Store()
 // To run recorder.py script
 document.getElementById('recorderBtn').addEventListener('click', () => {
     // Run recorder.py
-    const pyShell = new PythonShell('../../pyScripts/recorder.py', {mode: 'json'})
-    pyShell.on('message', (bot) => {
+    const options ={
+        mode: 'json',
+        pythonPath: '../../venv/Scripts/python.exe',
+        scriptPath: '../../pyScripts'
+    }
+    PythonShell.run('recorder.py', options, (err, resultBot) => {
+        // Throw err if err
+        if (err) {
+            throw err
+        }
+
         // Delete previously saved bot
         store.delete('bot')
 
         // Save bot (i.e. the event sequence given by python)
-        store.set('bot')
-    })
-
-    // End input stream and let process exit
-    pyShell.end((err) => {
-        if (err) {
-            throw err
-        }
+        store.set('bot', resultBot)
     })
 })
 
@@ -31,10 +33,14 @@ document.getElementById('playBtn').addEventListener('click', () => {
     const bot = store.get('bot')
     if (bot) {
         // Run player.py
-        const pyShell = new PythonShell('../../pyScripts/player.py', {mode: 'json'})
-
-        // End input stream and let process exit
-        pyShell.end((err) => {
+        const options ={
+            mode: 'json',
+            pythonPath: '../../venv/Scripts/python.exe',
+            scriptPath: '../../pyScripts',
+            args: [bot]
+        }
+        PythonShell.run('player.py', options, (err) => {
+            // Throw err if err
             if (err) {
                 throw err
             }
