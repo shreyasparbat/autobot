@@ -1,6 +1,5 @@
 // Library imports
-const path = require('path')
-const {app, BrowserWindow} = require('electron/electron')
+const {app, BrowserWindow} = require('electron')
 
 /**
  * Used to initialise the main browser window
@@ -9,20 +8,13 @@ const {app, BrowserWindow} = require('electron/electron')
 const createMainWindow = () => {
     // Create mainWindow
     const mainWindow = new BrowserWindow({
-        width: 200,
-        height: 100
+        width: 300,
+        height: 200
     })
 
-    // Load html
-    mainWindow.loadFile(path.join('renderer', 'index.html'))
-
-    // Open developer tools
+    // Load html and (optionally) open dev tools
+    mainWindow.loadFile('app/renderer/index.html')
     // mainWindow.webContents.openDevTools()
-
-    // Show this window when ready (to prevent flickering)
-    mainWindow.once('ready-to-show', () => {
-        this.show()
-    })
 }
 
 // Electron has finished initialization and is ready to create browser windows.

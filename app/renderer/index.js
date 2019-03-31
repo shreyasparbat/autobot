@@ -1,17 +1,17 @@
 // Library imports
-const PythonShell = require('python-shell')
+const {PythonShell} = require('python-shell')
 const Store = require('electron-store')
 
 // Create new storage file
 const store = new Store()
 
 // To run recorder.py script
-document.getElementById('recorderBtn').addEventListener('click', () => {
+document.getElementById('recordBtn').addEventListener('click', () => {
     // Run recorder.py
-    const options ={
+    const options = {
         mode: 'json',
-        pythonPath: '../../venv/Scripts/python.exe',
-        scriptPath: '../../pyScripts'
+        pythonPath: 'venv/Scripts/python.exe',
+        scriptPath: 'pyScripts'
     }
     PythonShell.run('recorder.py', options, (err, resultBot) => {
         // Throw err if err
@@ -33,11 +33,11 @@ document.getElementById('playBtn').addEventListener('click', () => {
     const bot = store.get('bot')
     if (bot) {
         // Run player.py
-        const options ={
+        const options = {
             mode: 'json',
-            pythonPath: '../../venv/Scripts/python.exe',
-            scriptPath: '../../pyScripts',
-            args: [bot]
+            pythonPath: 'venv/Scripts/python.exe',
+            scriptPath: 'pyScripts',
+            args: [JSON.stringify(bot[0])]
         }
         PythonShell.run('player.py', options, (err) => {
             // Throw err if err

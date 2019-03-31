@@ -30,7 +30,7 @@ def execute_keyboard_event(event):
 
 
 # Load bot (passed in as argument by electron)
-event_sequence = json.loads(sys.argv[0])
+event_sequence = json.loads(sys.argv[1])
 
 # Execute each event
 for event in event_sequence:
@@ -43,4 +43,7 @@ for event in event_sequence:
         execute_keyboard_event(event)
 
     # Introduce delay
-    pyautogui.PAUSE = 0.25
+    pyautogui.PAUSE = 1
+
+# Exit program
+exit(0)

@@ -2,6 +2,7 @@
 import pyHook
 from pyHook.HookManager import HookConstants
 import pythoncom
+import json
 
 
 # Called when mouse events are received
@@ -40,7 +41,7 @@ def on_keyboard_event(event):
     # Clean up when escape is pressed
     if event.Key == 'Escape':
         # Send message to NodeJS python-shell using print()
-        print(event_sequence)
+        print(json.dumps(event_sequence))
 
         # Exit script
         exit(0)
