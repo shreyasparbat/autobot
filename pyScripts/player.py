@@ -1,36 +1,18 @@
 # Library imports
 import pyautogui
 import json
-
-# Initialise global list of events
-event_sequence = []
-
-
-# Execute events
-def execute_bot(bot_file):
-    # Load bot
-    with open(bot_file, 'r') as bot:
-        event_sequence = json.load(bot)
-
-    # Execute each event
-    for event in event_sequence:
-        # For mouse events
-        if event['type'] == 'mouse':
-            execute_mouse_event(event)
-
-        # For keyboard events
-        if event['type'] == 'keyboard':
-            execute_keyboard_event(event)
-
-        # Introduce delay
-        pyautogui.PAUSE = 0.25
+import sys
+import time
 
 
 # Execute one mouse event
 def execute_mouse_event(event):
     # If down direction
     if event['direction'] == 'down':
+        # Pause python
+        time.sleep(2)
         pyautogui.mouseDown(button=event['button'], x=event['position'][0], y=event['position'][1])
+
     # If up direction
     if event['direction'] == 'up':
         pyautogui.mouseUp(button=event['button'], x=event['position'][0], y=event['position'][1])
@@ -51,6 +33,18 @@ def execute_keyboard_event(event):
     pyautogui.press(event['key'])
 
 
-if __name__ == '__main__':
-    # Execute events
-    execute_bot('..\\tmpBots\\sample.json')
+# Load bot (passed in as argument by electron)
+event_sequence = json.loads(sys.argv[1])
+
+# Execute each event
+for event in event_sequence:
+    # For mouse events
+    if event['type'] == 'mouse':
+        execute_mouse_event(event)
+
+    # For keyboard events
+    if event['type'] == 'keyboard':
+        execute_keyboard_event(event)
+
+# Exit program
+exit(0)

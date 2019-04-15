@@ -1,53 +1,49 @@
 // Library imports
-const {ipcRenderer} = require('electron')
-const PythonShell = require('python-shell')
+const {PythonShell} = require('python-shell')
+const Store = require('electron-store')
 
-// To play bot using text value (i.e. run player.py)
-const playBot = (e) => {
-    // TODO: run player.py
-}
+// Create new storage file
+const store = new Store()
 
-// To delete bot using text value
-const deleteBot = (e) => {
-    ipcRenderer.send('delete-bot', e.target.textContent)
-}
+// To run recorder.py script
+document.getElementById('recordBtn').addEventListener('click', () => {
+    // Run recorder.py
+    const options = {
+        mode: 'json',
+        pythonPath: 'venv/Scripts/python.exe',
+        scriptPath: 'pyScripts'
+    }
+    PythonShell.run('recorder.py', options, (err, resultBot) => {
+        // Throw err if err
+        if (err) {
+            throw err
+        }
 
-// To run recorder.py script and minimise mainWindow
-document.getElementById('recorderBtn').addEventListener('click', () => {
-    // Minimise window
-    ipcRenderer.send('minimise-main-window')
+        // Delete previously saved bot
+        store.delete('bot')
 
-    // TODO: Run recorder.py
-    const pyshell = new PythonShell('../../pyScripts/recorder.py')
-    pyshell.on('message', (bot) => {
-        // When recorder replies with a bot, open save as window
-        ipcRenderer.send('save-as-window')
+        // Save bot (i.e. the event sequence given by python)
+        store.set('bot', resultBot)
     })
 })
 
-ipcRenderer.on('bots', (event, bots) => {
-    // Get botList ul
-    const botList = document.getElementById('botList')
-
-    // Create html string for all rows to be added to botList
-    // Set botList's inner html to the generated rows
-    botList.innerHTML = bots.reduce((html, bot) => {
-        html += '<li class="botRow">${bot}' +
-            '<button id="play" type="button" class="btn">Play</button>' +
-            '<button id="delete" type="button" class="btn">Delete</button>' +
-            '</li>'
-
-        // Return individual row
-        return html
-    }, '')
-
-    // Add click handlers to play bot
-    botList.querySelectorAll('.play').forEach(bot => {
-        bot.addEventListener('click', playBot)
-    })
-
-    // Add click handlers to delete bot
-    botList.querySelectorAll('.delete').forEach(bot => {
-        bot.addEventListener('click', deleteBot)
-    })
+// To run player.py script
+document.getElementById('playBtn').addEventListener('click', () => {
+    // Get bot and check if exists
+    const bot = store.get('bot')
+    if (bot) {
+        // Run player.py
+        const options = {
+            mode: 'json',
+            pythonPath: 'venv/Scripts/python.exe',
+            scriptPath: 'pyScripts',
+            args: [JSON.stringify(bot[0])]
+        }
+        PythonShell.run('player.py', options, (err) => {
+            // Throw err if err
+            if (err) {
+                throw err
+            }
+        })
+    }
 })

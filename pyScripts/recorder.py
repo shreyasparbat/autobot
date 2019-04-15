@@ -4,29 +4,6 @@ from pyHook.HookManager import HookConstants
 import pythoncom
 import json
 
-# Custom imports
-from utils import handle_special_keys
-
-# Initialise global list of events
-event_sequence = []
-
-
-# Recording events and add them to the sequence
-def log_events():
-    # Create a hook manager
-    hm = pyHook.HookManager()
-
-    # Watch for all mouse and keyboard events
-    hm.MouseAll = on_mouse_event
-    hm.KeyDown = on_keyboard_event
-
-    # Set the hooks
-    hm.HookMouse()
-    hm.HookKeyboard()
-
-    # Wait forever (using windows message loop)
-    pythoncom.PumpMessages()
-
 
 # Called when mouse events are received
 def on_mouse_event(event):
@@ -64,7 +41,7 @@ def on_keyboard_event(event):
     # Clean up when escape is pressed
     if event.Key == 'Escape':
         # Send message to NodeJS python-shell using print()
-        print(event_sequence)
+        print(json.dumps(event_sequence))
 
         # Exit script
         exit(0)
@@ -120,14 +97,69 @@ def on_keyboard_event(event):
     return True
 
 
-# Run if in main
-if __name__ == '__main__':
-    # Start logging events
-    log_events()
+# Convert special key inputs from pyhook to pyautogui nomenclature
+def handle_special_keys(event):
+    # If not a capital letter
+    if int(event.Ascii) < 65 or int(event.Ascii) > 90:
+        # Make all characters lowercase (handles mose cases)
+        key = event.Key.lower()
+    else:
+        key = event.Key
 
-        # # Ask for bot name
-        # botName = input('Save as: ')
+    # Define pyhook-pyautogui dict
+    conversion_dict = {
+        'lshift': 'shiftleft',
+        'rshift': 'shiftleft',
+        'lcontrol': 'ctrlleft',
+        'rcontrol': 'ctrlleft',
+        'lmenu': 'altleft',
+        'rmenu': 'altleft',
+        'back': 'backspace',
+        'prior': 'pageup',
+        'next': 'pagedown',
+        'volume_up': 'volumeup',
+        'volume_down': 'volumedown',
+        'volume_mute': 'volumemute',
+        'capital': 'capslock',
+        'lwin': 'winleft',
+        'rwin': 'winleft'
+    }
 
-        # # Create JSON file and write event_sequence to it
-        # with open('..\\tmpBots\\' + botName + '.json', 'w') as writeFile:
-        #     json.dump(event_sequence, writeFile, indent=4)
+    # Replace special keys with pyautogui equivalent
+    if key in conversion_dict:
+        key = conversion_dict[key]
+
+    # Final event to return
+    final_event = {
+        'type': 'keyboard',
+        'messageName': event.MessageName,
+        'time': event.Time,
+        'window': event.Window,
+        'windowName': event.WindowName,
+        'ascii': event.Ascii,
+        'key': key
+    }
+
+    # If key is ctrl/shift, include nextKeys attribute
+    if key == 'shiftleft' or key == 'ctrlleft':
+        final_event['nextKeys'] = []
+
+    return final_event
+
+
+# Initialise global list of events
+event_sequence = []
+
+# Create a hook manager
+hm = pyHook.HookManager()
+
+# Watch for all mouse and keyboard events
+hm.MouseAll = on_mouse_event
+hm.KeyDown = on_keyboard_event
+
+# Set the hooks
+hm.HookMouse()
+hm.HookKeyboard()
+
+# Wait forever (using windows message loop)
+pythoncom.PumpMessages()

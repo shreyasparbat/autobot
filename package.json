@@ -2,7 +2,7 @@
   "name": "autobot",
   "version": "1.0.0",
   "description": "Autobot MVP v1",
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
     "start": "electron ."
   },
