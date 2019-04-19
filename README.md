@@ -1,41 +1,68 @@
-## Boilerplate for React with Material UI and Electron
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Up to date boilerplate with React, Electron and Material UI (Beta). 
-I started to look a bit more in the folowing stack and noticed quite bad documentation in some areas or at least quite outdated ones, or ones containing huge amount of dependencies.
-And for newcomers that can be quite challenging to be thrown in a world with xyz amount of new things added to the mix. 
+## Available Scripts
 
-That's why I have decided to create the boilerplate for my reference and to anyone else who would found it useful with the least amount of relevant dependencies.
+In the project directory, you can run:
 
-## Run steps: 
+### `npm start`
 
-1.) `npm install`  
-2.) `npm run` (Used npm run on Windows) || `npm start` (Used npm start on OS X)
-3.) It will open browser with localhost:3000 page with rendering of basic Material menu  
-4.) open second terminal window  
-5.) `npm run electron`  
-6.) It will open electron native client  
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-In regards to dependencies I have included only the most essential ones and as future prof as possible, 
-since a lot of the projects are still in heavy development. 
-I'll try to comment dependencies with appropriate references so development based on the boiler plate can be a bit easier to newcomers. 
+### `npm test`
 
-As well at least at the time of the writting Material UI is the most uptodate version available with huge features included in it
-Electron version included is also the newest with 1.7.5 and React 15.6.1 
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## Dependencies: 
-    "material-ui": "^1.0.0-beta.5", //Version 1 mostly beacuse of new Grid System but also due to a huge overhaul in Material UI itself 
-    "material-ui-icons": "^1.0.0-alpha.19", // Goes quite nicely with Material UI 
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-scripts": "1.0.11",
-    "react-tap-event-plugin": "^2.0.1" // Material UI requires it, but it's also a good temporary solution to a big problem 
-    "electron": "^1.7.5" // Cross platform framework for web tech to run natively 
+### `npm run build`
 
-Material UI: (Current beta docs docs) [https://material-ui-1dab0.firebaseapp.com/](https://material-ui-1dab0.firebaseapp.com/)  
-Material UI Icons: [https://www.npmjs.com/package/material-ui-icons](https://www.npmjs.com/package/material-ui-icons)  
-React tap event plugin: [https://github.com/zilverline/react-tap-event-plugin](https://github.com/zilverline/react-tap-event-plugin)  
-Electron: [https://electron.atom.io/](https://electron.atom.io/)  
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-**create-react-app was used to create the base of the project**
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
