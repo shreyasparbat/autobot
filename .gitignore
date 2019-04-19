@@ -219,3 +219,4 @@ tmpBots/
 
 # IDE
 .idea
+\.vscode/
