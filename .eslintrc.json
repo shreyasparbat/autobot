@@ -28,6 +28,7 @@
     "linebreak-style": "off",
     "prefer-destructuring": "off",
     "comma-dangle": "off",
+    "prefer-template": "off",
     "indent": [
       "error",
       4

@@ -4,8 +4,7 @@ const path = require('path')
 const url = require('url')
 
 // Custom imports
-const Recorder = require('./automation/recorder')
-const Player = require('./automation/player')
+const { record, play } = require('./automation/automationHandler')
 
 // Declare global variable for mainWindow
 let mainWindow
@@ -14,10 +13,8 @@ let mainWindow
  * Called to create a window
  */
 function createWindow() {
-    // Create a recorder and player instance for given file
+    // Set bot name
     const botName = 'test1'
-    const recorder = new Recorder(botName)
-    const player = new Player(botName)
 
     // Initialise browserWindow and maximize it
     mainWindow = new BrowserWindow({ show: false })
@@ -45,15 +42,15 @@ function createWindow() {
     const menu = Menu.buildFromTemplate([
         {
             label: 'Record',
-            click() {
-                await recorder.record()
+            async click() {
+                await record(botName)
             },
             accelerator: 'Ctrl+R'
         },
         {
             label: 'Play',
-            click() {
-                player.play()
+            async click() {
+                await play(botName)
             },
             accelerator: 'Ctrl+P'
         },

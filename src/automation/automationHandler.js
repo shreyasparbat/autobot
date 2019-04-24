@@ -7,12 +7,13 @@ const Store = require('electron-store')
  */
 const record = async (botName) => {
     // Retrieve store
-    const store = new Store()
+    // const store = new Store()
 
     // Retrieve bot (create default bot if doesn't exist)
-    const bot = store.get(botName)
-    if (!this.bot) {
-        this.bot = {
+    // const bot = store.get(botName)
+    let bot = null
+    if (!bot) {
+        bot = {
             variables: [],
             steps: []
         }
@@ -24,36 +25,44 @@ const record = async (botName) => {
     // Mouse click event
     ioHook.on('mouseclick', (event) => {
         // Save to bot
-        bot.steps.append(event)
+        bot.steps.push(event)
     })
 
     // Mouse drag event
     ioHook.on('mousedrag', (event) => {
         // Save to bot
-        bot.steps.append(event)
+        bot.steps.push(event)
     })
 
     // Mouse wheel event
     ioHook.on('mousewheel', (event) => {
         // Save to bot
-        bot.steps.append(event)
+        bot.steps.push(event)
     })
 
     // Key down event
     ioHook.on('keydown', (event) => {
         // TODO: Save bot and exit if 'esc' pressed
-        store.set(botName, bot)
+        // store.set(botName, bot)
+        console.log(bot)
+        // return true
 
         // Save to bot
-        bot.steps.append(event)
-    })
-
-    // Key up event
-    ioHook.on('keyup', (event) => {
-        // Save to bot
-        bot.steps.append(event)
+        bot.steps.push(event)
     })
 }
 
+record('test')
+
+/**
+ * Execute given bot
+ */
+const play = async (botName) => {
+    console.log('playing' + botName)
+}
+
 // Export
-module.exports = record
+module.exports = {
+    record,
+    play
+}
