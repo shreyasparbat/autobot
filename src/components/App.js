@@ -2,8 +2,8 @@
 import React from 'react'
 
 // Component imports
-import ClickCard from './ClickCard'
-import TypingCard from './TypingCard'
+// import ClickCard from './ClickCard'
+// import TypingCard from './TypingCard'
 
 // Define App component
 export default class App extends React.Component {
