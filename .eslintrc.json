@@ -15,6 +15,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-indent": "off",
+    "react/prefer-stateless-function": "off",
     "no-const-assign": "warn",
     "no-this-before-super": "warn",
     "no-undef": "warn",
@@ -26,6 +27,7 @@
     "arrow-body-style": ["error", "as-needed"],
     "linebreak-style": "off",
     "prefer-destructuring": "off",
+    "comma-dangle": "off",
     "indent": [
       "error",
       4
