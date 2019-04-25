@@ -4,7 +4,7 @@ const path = require('path')
 const url = require('url')
 
 // Custom imports
-const { record, play } = require('./automation/automator')
+const { record, play } = require('./pyAutomation/automator')
 
 // Declare global variable for mainWindow
 let mainWindow
