@@ -1,0 +1,4 @@
+.app-top-bar {
+    width: calc(100% - 140px);
+    margin-left: 140px;
+}

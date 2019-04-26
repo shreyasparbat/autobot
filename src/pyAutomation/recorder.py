@@ -4,6 +4,7 @@ from pyHook.HookManager import HookConstants
 import pythoncom
 import json
 import sys
+import os
 
 
 # Called when mouse events are received
@@ -158,7 +159,8 @@ def handle_special_keys(event):
 
 
 # Get bot_file_path from electron
-bot_file_path = sys.argv[1]
+bot_name = sys.argv[1]
+bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
 
 # Initialise global list of events
 event_sequence = []

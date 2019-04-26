@@ -3,6 +3,7 @@ import pyautogui
 import json
 import sys
 import time
+import os
 
 
 # Execute one mouse event
@@ -34,7 +35,8 @@ def execute_keyboard_event(event):
 
 
 # Get bot_file_path from electron
-bot_file_path = sys.argv[1]
+bot_name = sys.argv[1]
+bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
 
 # Load bot (passed in as argument by electron)
 with open(bot_file_path) as bot_file:

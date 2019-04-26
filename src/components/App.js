@@ -6,18 +6,21 @@ import ActivitiesPane from './ActivitiesPane'
 import AppTopBar from './AppTopBar'
 
 // CSS import
-
+import './css/App.css'
 
 // Define App component
 export default class App extends React.Component {
+    // TODO: Get botName from previous window
+    botName = 'test'
+
     render() {
         return (
             <div className={'ui root'}>
-                <div className={'ui activitiesPane'}>
+                <div className={'ui activities-pane'}>
                     <ActivitiesPane />
                 </div>
-                <div className={'ui appTopBar'}>
-                    <AppTopBar />
+                <div className={'ui app-top-bar'}>
+                    <AppTopBar botName={this.botName} />
                 </div>
             </div>
         )
