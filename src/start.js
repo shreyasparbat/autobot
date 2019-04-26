@@ -2,9 +2,11 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
+const Store = require('electron-store')
 
 // Custom imports
-const { record, play } = require('./pyAutomation/automator')
+const { invokeRecorder, invokePlayer } = require('./pyAutomation/automator')
 
 // Declare global variable for mainWindow
 let mainWindow
@@ -13,8 +15,30 @@ let mainWindow
  * Called to create a window
  */
 function createWindow() {
-    // Set bot name
-    const botName = 'test1'
+    // TODO: receive bot name
+    const botName = 'test'
+
+    // Get bot path from electron-store
+    const store = new Store()
+    let botFilePath = store.get(botName)
+
+    // If newly created bot (doesn't exist in electron-store)
+    if (!botFilePath) {
+        // Create bot file path
+        botFilePath = path.join(app.getAppPath('userData'), botName + '.json')
+
+        // Create default (empty) bot
+        const bot = {
+            variables: [],
+            events: []
+        }
+
+        // Stringify bot and save it
+        fs.writeFileSync(botFilePath, JSON.stringify(bot, null, 2))
+
+        // Save  botFilePath in electron-store
+        store.set(botName, botFilePath)
+    }
 
     // Initialise browserWindow and maximize it
     mainWindow = new BrowserWindow({ show: false })
@@ -43,14 +67,14 @@ function createWindow() {
         {
             label: 'Record',
             async click() {
-                await record(botName)
+                await invokeRecorder(botFilePath)
             },
             accelerator: 'Ctrl+R'
         },
         {
             label: 'Play',
             async click() {
-                await play(botName)
+                await invokePlayer(botFilePath)
             },
             accelerator: 'Ctrl+P'
         },
