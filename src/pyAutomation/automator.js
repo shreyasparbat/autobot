@@ -41,6 +41,10 @@ const invokePlayer = async (botFilePath) => {
     })
 }
 
+const loadSteps = async (botName) => {
+
+}
+
 // Export
 module.exports = {
     invokeRecorder,

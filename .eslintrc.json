@@ -15,6 +15,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-indent": "off",
+    "react/jsx-indent-props": "off",
     "react/prefer-stateless-function": "off",
     "no-const-assign": "warn",
     "no-this-before-super": "warn",
