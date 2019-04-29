@@ -1,5 +1,4 @@
 // Library imports
-const { PythonShell } = require('python-shell')
 const path = require('path')
 const Store = require('electron-store')
 const fs = require('fs')
