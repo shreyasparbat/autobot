@@ -2,7 +2,6 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
 const url = require('url')
-require('dotenv').config()
 
 // Declare global variable for mainWindow
 let mainWindow
