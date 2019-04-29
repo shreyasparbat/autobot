@@ -1,0 +1,15 @@
+.click-card {
+    max-width: 275px;
+    padding: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.retake-button {
+    text-align: center;
+}

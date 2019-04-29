@@ -1,51 +1,54 @@
 // Library imports
 const { PythonShell } = require('python-shell')
 const path = require('path')
-// const Store = require('electron-store')
-// const fs = require('fs')
+const Store = require('electron-store')
+const fs = require('fs')
+
+// Custom imports
+const emitter = require('../emitter')
 
 /**
- * Get botFilePath from botName
+ * Get botFilePath from botNamed
  */
-// const getBotFilePath = (botName) => {
-//     // Get bot path from electron-store
-//     const store = new Store()
-//     let botFilePath = store.get(botName)
-//
-//     // If newly created bot (doesn't exist in electron-store)
-//     if (!botFilePath) {
-//         // Create bot file path
-//         botFilePath = path.join(process.env.APPDATA, botName + '.json')
-//
-//         // Create default (empty) bot
-//         const bot = {
-//             variables: [],
-//             events: []
-//         }
-//
-//         // Stringify bot and save it
-//         fs.writeFileSync(botFilePath, JSON.stringify(bot, null, 2))
-//
-//         // Save  botFilePath in electron-store
-//         store.set(botName, botFilePath)
-//     }
-//
-//     return botFilePath
-// }
+const getBotFilePath = (botName) => {
+    // Get bot path from electron-store
+    const store = new Store()
+    let botFilePath = store.get(botName)
+
+    // If newly created bot (doesn't exist in electron-store)
+    if (!botFilePath) {
+        // Create bot file path
+        botFilePath = path.join(process.env.APPDATA, botName + '.json')
+
+        // Create default (empty) bot
+        const bot = {
+            variables: [],
+            events: []
+        }
+
+        // Stringify bot and save it
+        fs.writeFileSync(botFilePath, JSON.stringify(bot, null, 2))
+
+        // Save  botFilePath in electron-store
+        store.set(botName, botFilePath)
+    }
+
+    return botFilePath
+}
 
 /**
  * Record peripheral input events and save in readable format
  */
-const invokeRecorder = async (botName) => {
+emitter.on('invoke-recorder', (botName) => {
     // Get botFilePath
-    // const botFilePath = getBotFilePath(botName)
+    const botFilePath = getBotFilePath(botName)
 
     // Run recorder.py
     const options = {
         mode: 'text',
         pythonPath: path.join(__dirname, 'venv', 'Scripts', 'python.exe'),
         scriptPath: __dirname,
-        args: [botName]
+        args: [botFilePath]
     }
     PythonShell.run('recorder.py', options, (err) => {
         // Throw err if err
@@ -53,13 +56,14 @@ const invokeRecorder = async (botName) => {
             throw err
         }
     })
-}
+})
+
 /**
  * Execute given bot
  */
-const invokePlayer = async (botName) => {
+emitter.on('invoke-player', (botName) => {
     // Get botFilePath
-    // const botFilePath = getBotFilePath(botName)
+    const botFilePath = getBotFilePath(botName)
 
     // Run player.py
     const options = {
@@ -74,14 +78,9 @@ const invokePlayer = async (botName) => {
             throw err
         }
     })
-}
+})
 
-const loadSteps = async (botName) => {
-
-}
-
-// Export
-export {
-    invokeRecorder,
-    invokePlayer,
-}
+emitter.on('load-steps', (botName) => {
+    // Get botFilePath
+    const botFilePath = getBotFilePath(botName)
+})

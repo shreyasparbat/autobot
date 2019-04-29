@@ -2,11 +2,7 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
 const url = require('url')
-// const fs = require('fs')
-// const Store = require('electron-store')
-
-// Custom imports
-// const { getBotFilePath, invokeRecorder, invokePlayer } = require('./pyAutomation/automator')
+require('dotenv').config()
 
 // Declare global variable for mainWindow
 let mainWindow

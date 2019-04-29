@@ -2,3 +2,9 @@
     width: calc(100% - 140px);
     margin-left: 140px;
 }
+
+.workflow-panel {
+    width: calc(100% - 140px);
+    margin-left: 140px;
+    margin-top: 50px;
+}

@@ -1,8 +1,8 @@
 # Library imports
 import pyautogui
+import time
 import json
 import sys
-import time
 import os
 
 

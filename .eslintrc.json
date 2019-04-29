@@ -18,6 +18,7 @@
     "react/jsx-indent-props": "off",
     "react/jsx-curly-brace-presence": "off",
     "react/prefer-stateless-function": "off",
+    "react/destructuring-assignment": "off",
     "no-const-assign": "warn",
     "no-this-before-super": "warn",
     "no-undef": "warn",
