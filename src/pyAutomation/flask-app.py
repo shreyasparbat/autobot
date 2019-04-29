@@ -1,12 +1,12 @@
 # Library imports
-import pyHook
-from pyHook.HookManager import HookConstants
-import pythoncom
+# import pyHook
+# from pyHook.HookManager import HookConstants
+# import pythoncom
 import pyautogui
 import time
 import os
 import json
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 # Initialise flask app
@@ -251,7 +251,7 @@ def load_steps(bot_name):
 
     with open(bot_file_path) as bot_file:
         bot = json.load(bot_file)
-        return bot
+        return jsonify(bot)
 
 
 if __name__ == '__main__':

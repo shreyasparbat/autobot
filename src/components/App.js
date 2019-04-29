@@ -24,7 +24,7 @@ export default class App extends React.Component {
                     <AppTopBar botName={this.botName} />
                 </div>
                 <div className={'ui workflow-panel'}>
-                    <WorkflowPanel botName={this.botName}/>
+                    <WorkflowPanel botName={this.botName} />
                 </div>
             </div>
         )

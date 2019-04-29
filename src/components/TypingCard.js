@@ -16,11 +16,11 @@ import './css/TypingCard.css'
 
 export default class TypingCard extends React.Component {
     state = {
-        checkedCtrl: true,
-        checkedAlt: true,
-        checkedShift: true,
-        checkedWin: true,
-        text: ''
+        checkedCtrl: this.props.checkboxesDict.ctrlleft,
+        checkedAlt: this.props.checkboxesDict.altleft,
+        checkedShift: this.props.checkboxesDict.shiftleft,
+        checkedWin: this.props.checkboxesDict.winleft,
+        text: this.props.text
     }
 
     handleCheckboxChange = name => (event) => {
@@ -61,7 +61,7 @@ export default class TypingCard extends React.Component {
                                                 checked={this.state.checkedCtrl}
                                                 onChange={this.handleCheckboxChange('checkedCtrl')}
                                                 value={'checkedCtrl'}
-                                                color={'inherit'}
+                                                color={'default'}
                                             />
                                         )}
                                     />
@@ -71,8 +71,8 @@ export default class TypingCard extends React.Component {
                                             <Checkbox
                                                 checked={this.state.checkedAlt}
                                                 onChange={this.handleCheckboxChange('checkedAlt')}
-                                                value={'checkedCtrl'}
-                                                color={'inherit'}
+                                                value={'checkedAlt'}
+                                                color={'default'}
                                             />
                                         )}
                                     />
@@ -82,8 +82,8 @@ export default class TypingCard extends React.Component {
                                             <Checkbox
                                                 checked={this.state.checkedShift}
                                                 onChange={this.handleCheckboxChange('checkedShift')}
-                                                value={'checkedCtrl'}
-                                                color={'inherit'}
+                                                value={'checkedShift'}
+                                                color={'default'}
                                             />
                                         )}
                                     />
@@ -93,8 +93,8 @@ export default class TypingCard extends React.Component {
                                             <Checkbox
                                                 checked={this.state.checkedWin}
                                                 onChange={this.handleCheckboxChange('checkedWin')}
-                                                value={'checkedCtrl'}
-                                                color={'inherit'}
+                                                value={'checkedWin'}
+                                                color={'default'}
                                             />
                                         )}
                                     />
