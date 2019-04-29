@@ -17,12 +17,15 @@ export default class WorkflowPanel extends React.Component {
         }
     }
     pyURL = 'http://127.0.0.1:5000/'
+    specialKeys = ['ctrlleft', 'altleft', 'shiftleft', 'winleft']
     checkboxesDict = {
         ctrlleft: false,
         altleft: false,
         shiftleft: false,
         winleft: false,
     }
+
+
 
     componentDidMount() {
         // Load steps
@@ -39,7 +42,7 @@ export default class WorkflowPanel extends React.Component {
                 <Paper elevation={3}>
                     {
                         // Dynamically load ClickCards and TypingCards
-                        this.state.bot.events.map((event) => {
+                        this.state.bot.events.map((event, index) => {
                             if (event.type === 'mouse' && event.direction === 'up') {
                                 return (
                                     <div>
@@ -50,18 +53,27 @@ export default class WorkflowPanel extends React.Component {
                                     </div>
                                 )
                             }
-                            if (event.type === 'keyboard' && event.messageName === 'key down') {
+                            if (event.type === 'keyboard') {
                                 let text = event.key
 
                                 // Account for special key presses
-                                if (text === 'ctrlleft' || text === 'altleft' || text === 'shiftleft' || text === 'winleft') {
+                                if (this.specialKeys.includes(text)) {
                                     this.checkboxesDict[text] = true
                                     text = ''
                                     event.nextKeys.map((key) => {
                                         text += key
                                     })
                                 } else {
-
+                                    for (let i = index + 1; i < this.state.bot.events.length; i++) {
+                                        const nextEvent = this.state.bot.events[i]
+                                        if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key)) {
+                                            text += nextEvent.key
+                                            this.state.bot.events.splice(i, 1)
+                                            i--
+                                        } else {
+                                            break
+                                        }
+                                    }
                                 }
                                 return (
                                     <div>
