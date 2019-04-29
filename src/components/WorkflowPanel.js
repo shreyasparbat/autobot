@@ -17,7 +17,6 @@ export default class WorkflowPanel extends React.Component {
         }
     }
     pyURL = 'http://127.0.0.1:5000/'
-    specialKeys = ['ctrlleft', 'altleft', 'shiftleft', 'winleft']
     checkboxesDict = {
         ctrlleft: false,
         altleft: false,
@@ -55,16 +54,18 @@ export default class WorkflowPanel extends React.Component {
                                 let text = event.key
 
                                 // Account for special key presses
-                                if (text in this.specialKeys) {
+                                if (text === 'ctrlleft' || text === 'altleft' || text === 'shiftleft' || text === 'winleft') {
                                     this.checkboxesDict[text] = true
                                     text = ''
-                                    for (const key in event.nextKeys) {
+                                    event.nextKeys.map((key) => {
                                         text += key
-                                    }
+                                    })
+                                } else {
+
                                 }
                                 return (
                                     <div>
-                                        <TypingCard checkedList={this.checkboxesDict} text={text}/>
+                                        <TypingCard checkboxesDict={this.checkboxesDict} text={text} />
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
