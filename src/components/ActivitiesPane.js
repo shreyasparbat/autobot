@@ -10,7 +10,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import Modal from '@material-ui/core/Modal';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -18,7 +17,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 export default class ActivitiesPane extends React.Component {
     state={
         variables:[],
-        modalOpen:false
     }
     pyURL = 'http://127.0.0.1:5000/'
     // Define actions taken when activity is selected
@@ -113,7 +111,7 @@ export default class ActivitiesPane extends React.Component {
                             <Input placeholder='Value 'value={this.state.newVarValue} onChange={(event)=>{this.setState({newVarValue:event.target.value})}}/>
                             <Select
                             value={this.state.newVarType ? this.state.newVarType : 'string'}
-                            onChange={this.handleChange}
+                            onChange={(event)=>{this.setState({ newVarType: event.target.value })}}
                             input={<Input name="name" id="name-disabled" />}
                             >
                                 <MenuItem value="string">string</MenuItem>
@@ -126,7 +124,6 @@ export default class ActivitiesPane extends React.Component {
                         </ListItem>
                     </List>
                 </Drawer>
-                <Modal open={this.state.modalOpen}/>
             </div>
         )
     }
