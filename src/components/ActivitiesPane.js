@@ -25,33 +25,41 @@ export default class ActivitiesPane extends React.Component {
     }
 
     addVariable = () => {
-        const {newVarName,newVarValue,newVarType} = this.state;
-        this.setState({
-            variables: [
-                ...this.state.variables,
-                {
-                    name:newVarName,
-                    value:newVarValue ? newVarValue : null,
-                    type:newVarType
-                }
-            ]
-        },()=>{
-            const newVar = {
-                "name": newVarName,
-                "value": newVarValue,
-                "type": newVarType
+        const {newVarName,newVarValue = '',newVarType='string'} = this.state;
+        if(newVarName){ //Variable must have a name
+            if(!this.state.variables.find(e=>{
+                return e.name == newVarName
+            })){
+                this.setState({
+                    variables: [
+                        ...this.state.variables,
+                        {
+                            name:newVarName,
+                            value:newVarValue,
+                            type:newVarType
+                        }
+                    ]
+                },()=>{
+                    const newVar = {
+                        "name": newVarName,
+                        "value": newVarValue,
+                        "type": newVarType
+                    }
+                    axios.get(this.pyURL+'add-variable/'+this.props.botName,{params:{
+                        newVar: JSON.stringify(newVar)
+                    }}).then((reply)=>{
+                        console.log('success!');
+                    })
+                    this.setState({
+                        newVarName:'',
+                        newVarValue:'',
+                        newVarType:'',
+                    })
+                })                          
             }
-            axios.get(this.pyURL+'add-variable/'+this.props.botName,{params:{
-                newVar: JSON.stringify(newVar)
-            }}).then((reply)=>{
-                console.log('success!');
-            })
-            this.setState({
-                newVarName:'',
-                newVarValue:'',
-                newVarType:'',
-            })
-        })
+        } else {
+            alert('Please give your variable a name!')
+        }
     }
 
     handleChange = event => {
@@ -89,8 +97,9 @@ export default class ActivitiesPane extends React.Component {
                             </ListItem>
                         ))}
                     </List>
-                    <List style={{position:'absolute',bottom:0}}>
-                        <ListSubheader>
+
+                    <List style={{padding:0,position:'absolute',bottom:0,maxHeight:'70%',overflowY:'scroll'}}>
+                        <ListSubheader style={{backgroundColor:'white'}}>
                             <ListItemText primary='Variables' />
                         </ListSubheader>
                         {this.state.variables.map((variable, index) => (
@@ -103,16 +112,21 @@ export default class ActivitiesPane extends React.Component {
                             </ListItem>
                         ))}
                         <ListItem
-                            style={{display: 'flex',
-                              flexDirection: 'column',
-                              padding: 0}}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                padding: 0,
+                                position:'sticky',
+                                bottom:0,
+                                backgroundColor:'white'
+                            }}
                         >
                             <Input placeholder='Name' value={this.state.newVarName} onChange={(event)=>{this.setState({newVarName:event.target.value})}}/>
                             <Input placeholder='Value 'value={this.state.newVarValue} onChange={(event)=>{this.setState({newVarValue:event.target.value})}}/>
                             <Select
-                            value={this.state.newVarType ? this.state.newVarType : 'string'}
-                            onChange={(event)=>{this.setState({ newVarType: event.target.value })}}
-                            input={<Input name="name" id="name-disabled" />}
+                                value={this.state.newVarType ? this.state.newVarType : "string"}
+                                onChange={(event)=>{this.setState({ newVarType: event.target.value })}}
+                                input={<Input name="name" id="name-disabled" />}
                             >
                                 <MenuItem value="string">string</MenuItem>
                                 <MenuItem value="number">number</MenuItem>

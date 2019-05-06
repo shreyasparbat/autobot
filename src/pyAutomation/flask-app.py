@@ -263,6 +263,7 @@ def add_variable(bot_name):
         bot = json.load(bot_file)
         # Add newly created variable to the bot if the variables field already exists
         # If not, create the variables field and add the newly created variable as its first element
+        print(variable)
         if variable["type"] == 'string':
             variable = {
                 **variable,
