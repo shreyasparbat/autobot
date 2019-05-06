@@ -253,6 +253,54 @@ def load_steps(bot_name):
         bot = json.load(bot_file)
         return jsonify(bot)
 
+@app.route('/add-variable/<bot_name>', methods=['GET'])
+def add_variable(bot_name):
+    variable  = request.args.get('newVar', None)
+    variable = json.loads(variable)
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+    # Load existing bot from given file
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        # Add newly created variable to the bot if the variables field already exists
+        # If not, create the variables field and add the newly created variable as its first element
+        if variable["type"] == 'string':
+            variable = {
+                **variable,
+                "value": str(variable["value"])
+            }
+        elif variable["type"] == 'number':
+            variable = {
+                **variable,
+                "value": float(variable["value"])
+            }
+        elif variable["type"] == 'array':
+            array = variable["value"].split(',')
+            variable = {
+                **variable,
+                "value": array
+            }
+        else: 
+            # Final catch in case of any weird errors because strings are usually the safest
+            variable = {
+                **variable,
+                "value": str(variable["value"])
+            }
+        if "variables" in bot:
+            if variable["type"] == 'string':
+                bot["variables"].append(variable)
+            elif variable["type"] == 'number':
+                bot["variables"].append(variable)
+            elif variable["type"] == 'array':
+                bot["variables"].append(variable)
+        else:
+            bot["variables"] = [variable]
+
+    # Open bot_file in write mode
+    with open(bot_file_path, 'w') as bot_file:
+        # Replace current bot in bot_file with new bot
+        json.dump(bot, bot_file, indent=2)
+    return(jsonify(variable))
+
 
 if __name__ == '__main__':
     app.run()

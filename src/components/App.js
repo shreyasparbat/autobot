@@ -18,7 +18,7 @@ export default class App extends React.Component {
         return (
             <div className={'ui root'}>
                 <div className={'ui activities-pane'}>
-                    <ActivitiesPane />
+                    <ActivitiesPane botName={this.botName} />
                 </div>
                 <div className={'ui app-top-bar'}>
                     <AppTopBar botName={this.botName} />

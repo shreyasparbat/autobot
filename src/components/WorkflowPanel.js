@@ -34,6 +34,10 @@ export default class WorkflowPanel extends React.Component {
                 bot: reply.data
             })
         })
+        .catch(err=>{
+            console.log(err)
+        })
+        // console.log('hi')
     }
 
     render() {
