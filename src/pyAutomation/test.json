@@ -1,0 +1,113 @@
+{
+  "variables": [],
+  "events": [
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "down",
+      "time": 13955765,
+      "window": 0,
+      "windowName": null,
+      "position": [
+        382,
+        1046
+      ]
+    },
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "up",
+      "time": 13955843,
+      "window": 0,
+      "windowName": null,
+      "position": [
+        382,
+        1046
+      ]
+    },
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "down",
+      "time": 13958421,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\test.json [mvp 1] - PyCharm",
+      "position": [
+        596,
+        131
+      ]
+    },
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "up",
+      "time": 13958484,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\test.json [mvp 1] - PyCharm",
+      "position": [
+        596,
+        131
+      ]
+    },
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "down",
+      "time": 13959593,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\flask-app.py [mvp 1] - PyCharm",
+      "position": [
+        732,
+        222
+      ]
+    },
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "up",
+      "time": 13959656,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\flask-app.py [mvp 1] - PyCharm",
+      "position": [
+        732,
+        222
+      ]
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 13960296,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\flask-app.py [mvp 1] - PyCharm",
+      "ascii": 70,
+      "key": "F"
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 13960500,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\flask-app.py [mvp 1] - PyCharm",
+      "ascii": 70,
+      "key": "F"
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 13962109,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\flask-app.py [mvp 1] - PyCharm",
+      "ascii": 8,
+      "key": "backspace"
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 13962281,
+      "window": 2427166,
+      "windowName": "mvp 1 [C:\\Users\\shrey\\OneDrive\\Desktop\\Repos\\2019 autobot\\mvp 1] - ...\\src\\pyAutomation\\flask-app.py [mvp 1] - PyCharm",
+      "ascii": 8,
+      "key": "backspace"
+    }
+  ]
+}

@@ -201,13 +201,13 @@ def play(bot_name):
     def execute_mouse_event(event):
         # If down direction
         if event['direction'] == 'down':
-            # Pause python
-            time.sleep(2)
             pyautogui.mouseDown(button=event['button'], x=event['position'][0], y=event['position'][1])
 
         # If up direction
         if event['direction'] == 'up':
             pyautogui.mouseUp(button=event['button'], x=event['position'][0], y=event['position'][1])
+            # Pause python
+            time.sleep(2)
 
     # Execute one mouse event
     def execute_keyboard_event(event):

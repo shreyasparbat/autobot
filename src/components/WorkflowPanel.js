@@ -26,7 +26,6 @@ export default class WorkflowPanel extends React.Component {
     }
 
 
-
     componentDidMount() {
         // Load steps
         axios.get(this.pyURL + 'load-steps/' + this.props.botName).then((reply) => {

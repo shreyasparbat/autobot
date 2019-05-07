@@ -1,5 +1,5 @@
 // Library imports
-const { app, BrowserWindow, Menu } = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -36,7 +36,7 @@ function createWindow() {
     // }
 
     // Initialise browserWindow and maximize it
-    mainWindow = new BrowserWindow({ show: false })
+    mainWindow = new BrowserWindow({show: false})
     mainWindow.maximize()
 
     // Load index.html into this window
@@ -55,6 +55,10 @@ function createWindow() {
     // Destroy mainWindow when app is closed
     mainWindow.on('closed', () => {
         mainWindow = null
+    })
+
+    globalShortcut.register('CommandOrControl+R', () => {
+        mainWindow.reload()
     })
 
     // Create menu and set it to the application
