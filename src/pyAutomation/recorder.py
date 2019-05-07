@@ -46,7 +46,11 @@ def on_keyboard_event(event):
         with open(bot_file_path) as bot_file:
             bot = json.load(bot_file)
             # If the most recent event is an if event, append the recorded sequence to the if statement instead
-            if bot['events'][-1]["type"] == 'if':
+            try:
+                last_event_type = bot['events'][-1]["type"]
+            except IndexError:
+                last_event_type = None
+            if last_event_type == 'if':
                 # Check if trueEvents is recorded already, if not, record it first
                 if len(bot["events"][-1]["trueEvents"]) == 0:
                     bot["events"][-1]["trueEvents"] += (event_sequence)

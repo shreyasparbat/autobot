@@ -39,6 +39,9 @@ export default class TypingCard extends React.Component {
         return (
             <div className={'ui typing-card'}>
                 <Card elevation={3}>
+                    <Button onClick={this.props.deleteCard} variant={'contained'} color={'secondary'}>
+                        X
+                    </Button>
                     <CardContent className={'content'}>
                         <Grid
                             container

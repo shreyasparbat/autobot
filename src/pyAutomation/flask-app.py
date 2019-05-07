@@ -14,6 +14,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+# Used to ensure that variables are converted into their appropriate types
 def parse_type(value,varType):
     if varType == 'string':
         value = str(value)
@@ -180,12 +181,15 @@ def add_if_event(bot_name):
         events = bot["events"]
         variables = bot["variables"]
         # By default just use the first two variables and an == operator
-        print(variables[0])
+        if(len(variables)>0):
+            default_variable = variables[0]["name"]
+        else:
+            default_variable = ''
         if_event = {
             "id": str(uuid4()),
             "type": 'if',
-            "varA": variables[0].name,
-            "varB": variables[0].name,
+            "varA": default_variable,
+            "varB": default_variable,
             "operator": '==',
             "trueEvents": [],
             "falseEvents": []
@@ -217,6 +221,60 @@ def edit_if_event(bot_name):
     with open(bot_file_path,'w') as bot_file:
         json.dump(bot,bot_file,indent=2)
     return('success')
+
+@app.route('/delete-event/<bot_name>', methods=['GET'])
+def delete_event(bot_name):
+    start  = int(request.args.get('start', None))
+    end = int(request.args.get('end', None))
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+        print(len(events))
+
+    print(start)
+    print(end)
+    del events[start:end+1]
+    print(len(events))
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return(jsonify(bot))
+
+@app.route('/delete-sub-event/<bot_name>', methods=['GET'])
+def delete_sub_event(bot_name):
+    event_id = request.args.get('id',None)
+    start  = int(request.args.get('start', None))
+    end = int(request.args.get('end', None))
+    eventType = request.args.get('eventType', None)
+
+    print(event_id)
+
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+        print(len(events))
+
+    for event in events:
+        try:
+            if event['id'] == event_id:
+                ifEvent = event
+                break
+        except KeyError:
+            pass
+
+    if eventType == 'true':
+        subEvents = ifEvent["trueEvents"]
+    else:
+        subEvents = ifEvent["falseEvents"]
+
+    del subEvents[start:end+1]
+
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return(jsonify(bot))
 
 if __name__ == '__main__':
     app.run()

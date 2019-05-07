@@ -52,7 +52,10 @@ export default class IfCard extends React.Component {
         const { varA, varB, operator, trueEvents, falseEvents , id } = event
         return (
             <div className={'ui if-card'}>
-                <Card style={{width:'auto'}}elevation={3}>
+                <Card elevation={3}>
+                    <Button onClick={this.props.deleteEvent} variant={'contained'} color={'secondary'}>
+                        X
+                    </Button>
                     <CardContent className={'content'}>
                         <div className={'title'}>
                             <Typography variant="h5" component="h2">
@@ -121,9 +124,11 @@ export default class IfCard extends React.Component {
                                 // Dynamically load ClickCards and TypingCards
                                 trueEvents.map((event, index) => {
                                     if (event.type === 'mouse' && event.direction === 'up') {
+                                        let start = index-1;
+                                        let end = index;
                                         return (
                                             <div>
-                                                <ClickCard/>
+                                                <ClickCard subEvent={true} deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'true',id)}} />
                                                 <div className={'arrow-down'}>
                                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                                 </div>
@@ -179,7 +184,7 @@ export default class IfCard extends React.Component {
                                     if (event.type === 'mouse' && event.direction === 'up') {
                                         return (
                                             <div>
-                                                <ClickCard/>
+                                                <ClickCard subEvent={true} />
                                                 <div className={'arrow-down'}>
                                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                                 </div>

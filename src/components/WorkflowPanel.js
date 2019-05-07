@@ -25,6 +25,30 @@ export default class WorkflowPanel extends React.Component {
         shiftleft: false,
         winleft: false,
     }
+
+    deleteEvent = (start,end) => {
+        axios.get(this.pyURL+'delete-event/'+this.props.botName,{params:{
+            start,
+            end
+        }}).then((reply)=>{
+            this.setState({
+                bot: reply.data
+            })
+        }) 
+    }
+
+    deleteSubEvent = (start,end,eventType,id) => {
+        axios.get(this.pyURL+'delete-sub-event/'+this.props.botName,{params:{
+            start,
+            end,
+            eventType,
+            id
+        }}).then((reply)=>{
+            this.setState({
+                bot:reply.data
+            })
+        })
+    }
     
     componentDidMount() {
         // Load steps
@@ -43,12 +67,14 @@ export default class WorkflowPanel extends React.Component {
             <div>
                 <Paper elevation={3}>
                     {
-                        // Dynamically load ClickCards and TypingCards
+                        // Dynamically load ClickCards, TypingCards and IfCards
                         this.state.bot.events.map((event, index) => {
                             if (event.type === 'mouse' && event.direction === 'up') {
+                                let start = index-1
+                                let end = index
                                 return (
                                     <div>
-                                        <ClickCard/>
+                                        <ClickCard deleteEvent={()=>{this.deleteEvent(start,end)}} />
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
@@ -57,7 +83,7 @@ export default class WorkflowPanel extends React.Component {
                             }
                             if (event.type === 'keyboard') {
                                 let text = event.key
-
+                                let endIndex = index;
                                 // Account for special key presses
                                 if (this.specialKeys.includes(text)) {
                                     this.checkboxesDict[text] = true
@@ -71,15 +97,18 @@ export default class WorkflowPanel extends React.Component {
                                         if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key)) {
                                             text += nextEvent.key
                                             this.state.bot.events.splice(i, 1)
+                                            endIndex++
                                             i--
                                         } else {
                                             break
                                         }
                                     }
                                 }
+                                let start = index;
+                                let end = endIndex;
                                 return (
                                     <div>
-                                        <TypingCard checkboxesDict={this.checkboxesDict} text={text} />
+                                        <TypingCard deleteEvent={()=>{this.deleteEvent(start,end)}} checkboxesDict={this.checkboxesDict} text={text} />
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
@@ -87,9 +116,11 @@ export default class WorkflowPanel extends React.Component {
                                 )
                             }
                             if(event.type === 'if'){
+                                let start = index;
+                                let end = index;
                                 return (
                                     <div>
-                                        <IfCard event={event} variables={this.state.bot.variables} botName={this.props.botName}/>
+                                        <IfCard deleteSubEvent={this.deleteSubEvent} deleteEvent={()=>{this.deleteEvent(start,end)}} event={event} variables={this.state.bot.variables} botName={this.props.botName}/>
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
