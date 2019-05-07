@@ -21,7 +21,12 @@ export default class ActivitiesPane extends React.Component {
     pyURL = 'http://127.0.0.1:5000/'
     // Define actions taken when activity is selected
     selectActivity(activityIndex) {
-        console.log(activityIndex)
+        // If card
+        if(activityIndex == 2){
+            axios.get(this.pyURL+'add-if-event/'+this.props.botName).then(reply=>{
+                console.log(reply)
+            })
+        }
     }
 
     addVariable = () => {
@@ -62,9 +67,18 @@ export default class ActivitiesPane extends React.Component {
         }
     }
 
-    handleChange = event => {
-        this.setState({ newVarType: event.target.value });
-    };
+    editVariable = (name,curValue,newValue) => {
+        // Only make request if newValue is different from currentValue
+        if(curValue != newValue){
+            axios.get(this.pyURL+'edit-variable/'+this.props.botName,{params:{
+                "name":name,
+                "newValue":newValue,
+            }}).then((reply)=>{
+
+            })            
+        }
+
+    }
 
     componentDidMount(){
         axios.get(this.pyURL + 'load-steps/' + this.props.botName).then((reply) => {
@@ -87,7 +101,7 @@ export default class ActivitiesPane extends React.Component {
                     <div />
                     <Divider />
                     <List>
-                        {['Mouse Click', 'Type'].map((text, index) => (
+                        {['Mouse Click', 'Type', 'If'].map((text, index) => (
                             <ListItem
                                 button
                                 key={text}
@@ -108,7 +122,7 @@ export default class ActivitiesPane extends React.Component {
                                 onClick={() => this.selectActivity(index)}
                             >
                                 <ListItemText primary={variable.name+'='} />
-                                <Input defaultValue={variable.value}/>
+                                <Input onBlur={(event)=>{this.editVariable(variable.name,variable.value,event.target.value)}} defaultValue={variable.value}/>
                             </ListItem>
                         ))}
                         <ListItem

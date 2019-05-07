@@ -45,9 +45,16 @@ def on_keyboard_event(event):
         # Load existing bot from given file
         with open(bot_file_path) as bot_file:
             bot = json.load(bot_file)
-
-            # Merge newly created event_sequence with existing one
-            bot['events'] += event_sequence
+            # If the most recent event is an if event, append the recorded sequence to the if statement instead
+            if bot['events'][-1]["type"] == 'if':
+                # Check if trueEvents is recorded already, if not, record it first
+                if len(bot["events"][-1]["trueEvents"]) == 0:
+                    bot["events"][-1]["trueEvents"] += (event_sequence)
+                else:
+                    bot["events"][-1]["falseEvents"] += (event_sequence)
+            else:
+                # Else, merge newly created event_sequence with existing one
+                bot['events'] += event_sequence
 
         # Open bot_file in write mode
         with open(bot_file_path, 'w') as bot_file:

@@ -6,6 +6,7 @@ import pyautogui
 import time
 import os
 import json
+from uuid import uuid4
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -13,6 +14,16 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+def parse_type(value,varType):
+    if varType == 'string':
+        value = str(value)
+    elif varType == 'number':
+        value = float(value)
+    elif varType == 'array':
+        value = value.split(',')
+    else:
+        value = str(value)
+    return value
 
 @app.route('/')
 def hello_world():
@@ -21,176 +32,8 @@ def hello_world():
 
 @app.route('/record/<bot_name>')
 def record(bot_name):
-    # # Called when mouse events are received
-    # def on_mouse_event(event):
-    #     # Check for all events except 'mouse move'
-    #     if event.MessageName != 'mouse move':
-    #         # Check button
-    #         if 'right' in event.MessageName:
-    #             button = 'right'
-    #         if 'left' in event.MessageName:
-    #             button = 'left'
-    #
-    #         # Check direction
-    #         if 'down' in event.MessageName:
-    #             direction = 'down'
-    #         if 'up' in event.MessageName:
-    #             direction = 'up'
-    #
-    #         # Append event to sequence
-    #         event_sequence.append({
-    #             'type': 'mouse',
-    #             'button': button,
-    #             'direction': direction,
-    #             'time': event.Time,
-    #             'window': event.Window,
-    #             'windowName': event.WindowName,
-    #             'position': event.Position
-    #         })
-    #
-    #     # return True to pass the event to other handlers
-    #     return True
-    #
-    # # Called when keyboard events are received
-    # def on_keyboard_event(event):
-    #     # Clean up when escape is pressed
-    #     if event.Key == 'Escape':
-    #         # Load existing bot from given file
-    #         with open(bot_file_path) as bot_file:
-    #             bot = json.load(bot_file)
-    #
-    #             # Merge newly created event_sequence with existing one
-    #             bot['events'] += event_sequence
-    #
-    #         # Open bot_file in write mode
-    #         with open(bot_file_path, 'w') as bot_file:
-    #             # Replace current bot in bot_file with new bot
-    #             json.dump(bot, bot_file, indent=2)
-    #
-    #         # Exit script
-    #         exit(0)
-    #
-    #     # If ctrl pressed
-    #     if pyHook.GetKeyState(HookConstants.VKeyToID('VK_CONTROL')):
-    #         # If prev was ctrl as well
-    #         if event_sequence and event_sequence[-1]['type'] == 'keyboard' and \
-    #                 event_sequence[-1]['key'] == 'ctrlleft':
-    #             # If not this key is ctrl
-    #             if not (event.Key == 'Lcontrol' or event.Key == 'Rcontrol'):
-    #                 # Append to prev entry's nextKeys list
-    #                 event_sequence[-1]['nextKeys'].append(event.Key.lower())
-    #         else:
-    #             # Store this event with key as ctrl and nextKey as this key
-    #             event_sequence.append({
-    #                 'type': 'keyboard',
-    #                 'messageName': event.MessageName,
-    #                 'time': event.Time,
-    #                 'window': event.Window,
-    #                 'windowName': event.WindowName,
-    #                 'ascii': event.Ascii,
-    #                 'key': 'ctrlleft',
-    #                 'nextKeys': []
-    #             })
-    #     # Elif shift pressed
-    #     elif pyHook.GetKeyState(HookConstants.VKeyToID('VK_SHIFT')):
-    #         # If prev was shift as well
-    #         if event_sequence and event_sequence[-1]['type'] == 'keyboard' and \
-    #                 event_sequence[-1]['key'] == 'shiftleft':
-    #             # If not this key is shift
-    #             if not (event.Key == 'Lshift' or event.Key == 'Rshift'):
-    #                 # Append to prev entry's nextKeys list
-    #                 event_sequence[-1]['nextKeys'].append(event.Key.lower())
-    #         else:
-    #             # Store this event with key as shift and nextKey as this key
-    #             event_sequence.append({
-    #                 'type': 'keyboard',
-    #                 'messageName': event.MessageName,
-    #                 'time': event.Time,
-    #                 'window': event.Window,
-    #                 'windowName': event.WindowName,
-    #                 'ascii': event.Ascii,
-    #                 'key': 'shiftleft',
-    #                 'nextKeys': []
-    #             })
-    #     # For non ctrl/shift long-press situations
-    #     else:
-    #         # Handle special keys
-    #         event_sequence.append(handle_special_keys(event))
-    #
-    #     # Return True to pass the event to other handlers
-    #     return True
-    #
-    # # Convert special key inputs from pyhook to pyautogui nomenclature
-    # def handle_special_keys(event):
-    #     # If not a capital letter
-    #     if int(event.Ascii) < 65 or int(event.Ascii) > 90:
-    #         # Make all characters lowercase (handles mose cases)
-    #         key = event.Key.lower()
-    #     else:
-    #         key = event.Key
-    #
-    #     # Define pyhook-pyautogui dict
-    #     conversion_dict = {
-    #         'lshift': 'shiftleft',
-    #         'rshift': 'shiftleft',
-    #         'lcontrol': 'ctrlleft',
-    #         'rcontrol': 'ctrlleft',
-    #         'lmenu': 'altleft',
-    #         'rmenu': 'altleft',
-    #         'back': 'backspace',
-    #         'prior': 'pageup',
-    #         'next': 'pagedown',
-    #         'volume_up': 'volumeup',
-    #         'volume_down': 'volumedown',
-    #         'volume_mute': 'volumemute',
-    #         'capital': 'capslock',
-    #         'lwin': 'winleft',
-    #         'rwin': 'winleft'
-    #     }
-    #
-    #     # Replace special keys with pyautogui equivalent
-    #     if key in conversion_dict:
-    #         key = conversion_dict[key]
-    #
-    #     # Final event to return
-    #     final_event = {
-    #         'type': 'keyboard',
-    #         'messageName': event.MessageName,
-    #         'time': event.Time,
-    #         'window': event.Window,
-    #         'windowName': event.WindowName,
-    #         'ascii': event.Ascii,
-    #         'key': key
-    #     }
-    #
-    #     # If key is ctrl/shift, include nextKeys attribute
-    #     if key == 'shiftleft' or key == 'ctrlleft':
-    #         final_event['nextKeys'] = []
-    #
-    #     return final_event
-    #
-    # # Get bot_file_path given bot_name
-    # bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
-    #
-    # # Initialise global list of events
-    # event_sequence = []
-    #
-    # # Create a hook manager
-    # hm = pyHook.HookManager()
-    #
-    # # Watch for all mouse and keyboard events
-    # hm.MouseAll = on_mouse_event
-    # hm.KeyDown = on_keyboard_event
-    #
-    # # Set the hooks
-    # hm.HookMouse()
-    # hm.HookKeyboard()
-    #
-    # # Wait forever (using windows message loop)
-    # pythoncom.PumpMessages()
-
+    # Spawn process to record
     os.system('python recorder.py ' + bot_name)
-
     # Exit route
     return 'success'
 
@@ -223,6 +66,46 @@ def play(bot_name):
         # For any other key, just press
         pyautogui.press(event['key'])
 
+    def execute_events(events,variables=[]):
+        for event in events:
+            if event['type'] == 'mouse':
+                execute_mouse_event(event)
+
+            # For keyboard events
+            if event['type'] == 'keyboard':
+                execute_keyboard_event(event)
+
+            # For if events
+            if event['type'] == 'if':
+                execute_if_event(event,variables)
+
+
+    def execute_if_event(event,variables):
+        varA = event["varA"]
+        varB = event["varB"]
+        varAFound = False
+        varBFound = False
+        for variable in variables:
+            if variable["name"] == varA:
+                varAVal = variable["value"]
+                varAFound = True
+                if varAFound & varBFound:
+                    break
+            elif variable["name"] == varB:
+                varBVal = variable["value"]
+                varBFound =True
+                if varAFound & varBFound:
+                    break
+        operator = event["operator"]
+        trueEvents = event["trueEvents"]
+        falseEvents = event["falseEvents"]
+
+        if eval('varAVal '+operator+' varBVal'):
+            execute_events(trueEvents)
+        else:
+            execute_events(falseEvents)            
+
+
     # Get bot_file_path from electron
     bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
 
@@ -230,15 +113,7 @@ def play(bot_name):
     with open(bot_file_path) as bot_file:
         bot = json.load(bot_file)
 
-        # Execute bot
-        for event in bot['events']:
-            # For mouse events
-            if event['type'] == 'mouse':
-                execute_mouse_event(event)
-
-            # For keyboard events
-            if event['type'] == 'keyboard':
-                execute_keyboard_event(event)
+        execute_events(bot['events'],bot['variables'])
 
     # Exit route
     return 'success'
@@ -263,36 +138,12 @@ def add_variable(bot_name):
         bot = json.load(bot_file)
         # Add newly created variable to the bot if the variables field already exists
         # If not, create the variables field and add the newly created variable as its first element
-        print(variable)
-        if variable["type"] == 'string':
-            variable = {
-                **variable,
-                "value": str(variable["value"])
-            }
-        elif variable["type"] == 'number':
-            variable = {
-                **variable,
-                "value": float(variable["value"])
-            }
-        elif variable["type"] == 'array':
-            array = variable["value"].split(',')
-            variable = {
-                **variable,
-                "value": array
-            }
-        else: 
-            # Final catch in case of any weird errors because strings are usually the safest
-            variable = {
-                **variable,
-                "value": str(variable["value"])
-            }
+        variable = {
+            **variable,
+            "value": parse_type(variable["value"],variable["type"])
+        }
         if "variables" in bot:
-            if variable["type"] == 'string':
-                bot["variables"].append(variable)
-            elif variable["type"] == 'number':
-                bot["variables"].append(variable)
-            elif variable["type"] == 'array':
-                bot["variables"].append(variable)
+            bot["variables"].append(variable)
         else:
             bot["variables"] = [variable]
 
@@ -302,6 +153,70 @@ def add_variable(bot_name):
         json.dump(bot, bot_file, indent=2)
     return(jsonify(variable))
 
+
+@app.route('/edit-variable/<bot_name>', methods=['GET'])
+def edit_variable(bot_name):
+    varName  = request.args.get('name', None)
+    newValue = request.args.get('newValue', '')
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    # Load existing bot from given file
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        variables = bot["variables"]
+        for variable in variables:
+            if variable["name"] == varName:
+                variable["value"] = parse_type(newValue,variable["type"])
+                break
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return('success')
+
+@app.route('/add-if-event/<bot_name>')
+def add_if_event(bot_name):
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+        variables = bot["variables"]
+        # By default just use the first two variables and an == operator
+        print(variables[0])
+        if_event = {
+            "id": str(uuid4()),
+            "type": 'if',
+            "varA": variables[0].name,
+            "varB": variables[0].name,
+            "operator": '==',
+            "trueEvents": [],
+            "falseEvents": []
+        }
+        events.append(if_event)
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return(jsonify(bot))
+
+@app.route('/edit-if-event/<bot_name>', methods=['GET'])
+def edit_if_event(bot_name):
+    event_id  = request.args.get('id', None)
+    field = request.args.get('field', None)
+    newName = request.args.get('newName',None)
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+        variables = bot["variables"]
+    for event in events:
+        try:
+            if event['id'] == event_id:
+                ifEvent = event
+                break
+        except KeyError:
+            pass
+    ifEvent[field] = newName
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return('success')
 
 if __name__ == '__main__':
     app.run()

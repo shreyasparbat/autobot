@@ -6,6 +6,7 @@ import axios from 'axios'
 // Custom component imports
 import ClickCard from './ClickCard'
 import TypingCard from './TypingCard'
+import IfCard from './IfCard'
 import './css/WorkflowPanel.css'
 import ArrowDown from './css/ArrowDown.svg'
 
@@ -24,9 +25,7 @@ export default class WorkflowPanel extends React.Component {
         shiftleft: false,
         winleft: false,
     }
-
-
-
+    
     componentDidMount() {
         // Load steps
         axios.get(this.pyURL + 'load-steps/' + this.props.botName).then((reply) => {
@@ -37,7 +36,6 @@ export default class WorkflowPanel extends React.Component {
         .catch(err=>{
             console.log(err)
         })
-        // console.log('hi')
     }
 
     render() {
@@ -82,6 +80,16 @@ export default class WorkflowPanel extends React.Component {
                                 return (
                                     <div>
                                         <TypingCard checkboxesDict={this.checkboxesDict} text={text} />
+                                        <div className={'arrow-down'}>
+                                            <img src={ArrowDown} alt={'arrow-down'}/>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            if(event.type === 'if'){
+                                return (
+                                    <div>
+                                        <IfCard event={event} variables={this.state.bot.variables} botName={this.props.botName}/>
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>

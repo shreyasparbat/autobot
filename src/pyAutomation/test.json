@@ -25,229 +25,264 @@
       ]
     },
     {
-      "type": "mouse",
-      "button": "left",
-      "direction": "down",
-      "time": 8411750,
-      "window": 918260,
-      "windowName": "Chrome Legacy Window",
-      "position": [
-        371,
-        525
+      "id": "378f6858-7853-4103-bfd7-9e2cb7e15fba",
+      "type": "if",
+      "varA": "a",
+      "varB": "b",
+      "operator": ">=",
+      "trueEvents": [
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101707578,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            368,
+            319
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101707687,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            368,
+            319
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101708031,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            273,
+            407
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101708140,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            273,
+            407
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101708453,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            379,
+            415
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101708578,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            379,
+            415
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101708937,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            457,
+            368
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101709015,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            457,
+            368
+          ]
+        }
+      ],
+      "falseEvents": [
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101713140,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            434,
+            293
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101713234,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            434,
+            293
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101713578,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            489,
+            320
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101713671,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            489,
+            320
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101713968,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            489,
+            281
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101714046,
+          "window": 132212,
+          "windowName": "Chrome Legacy Window",
+          "position": [
+            489,
+            281
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 101714906,
+          "window": 590778,
+          "windowName": "React App - Google Chrome",
+          "position": [
+            412,
+            59
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 101714906,
+          "window": 590778,
+          "windowName": "React App - Google Chrome",
+          "position": [
+            412,
+            59
+          ]
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 101715328,
+          "window": 590778,
+          "windowName": "React App - Google Chrome",
+          "ascii": 0,
+          "key": "right"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 101715531,
+          "window": 590778,
+          "windowName": "React App - Google Chrome",
+          "ascii": 0,
+          "key": "q"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 101715625,
+          "window": 590778,
+          "windowName": "React App - Google Chrome",
+          "ascii": 0,
+          "key": "w"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 101715703,
+          "window": 590778,
+          "windowName": "React App - Google Chrome",
+          "ascii": 0,
+          "key": "e"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 101715781,
+          "window": 590778,
+          "windowName": "React App - Google Chrome",
+          "ascii": 0,
+          "key": "f"
+        }
       ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "up",
-      "time": 8411843,
-      "window": 918260,
-      "windowName": "Chrome Legacy Window",
-      "position": [
-        371,
-        525
-      ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "down",
-      "time": 8412390,
-      "window": 918260,
-      "windowName": "Chrome Legacy Window",
-      "position": [
-        639,
-        549
-      ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "up",
-      "time": 8412484,
-      "window": 918260,
-      "windowName": "Chrome Legacy Window",
-      "position": [
-        639,
-        549
-      ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "down",
-      "time": 8413078,
-      "window": 918260,
-      "windowName": "Chrome Legacy Window",
-      "position": [
-        607,
-        345
-      ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "up",
-      "time": 8413171,
-      "window": 918260,
-      "windowName": "Chrome Legacy Window",
-      "position": [
-        607,
-        345
-      ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "down",
-      "time": 8414031,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "position": [
-        427,
-        49
-      ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "up",
-      "time": 8414031,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "position": [
-        427,
-        49
-      ]
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8414437,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 0,
-      "key": "right"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8414812,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 12,
-      "key": "l"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8414875,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 17,
-      "key": "q"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8414921,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 23,
-      "key": "w"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415000,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 5,
-      "key": "e"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415000,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 11,
-      "key": "k"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415062,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 6,
-      "key": "f"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415156,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 17,
-      "key": "q"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415203,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 12,
-      "key": "l"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415218,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 23,
-      "key": "w"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415265,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 5,
-      "key": "e"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415359,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 6,
-      "key": "f"
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 8415375,
-      "window": 66238,
-      "windowName": "React App - Google Chrome",
-      "ascii": 10,
-      "key": "j"
     }
   ],
   "variables": [
     {
       "name": "a",
-      "value": 500.0,
+      "value": 509981234.0,
       "type": "number"
     },
     {
       "name": "b",
-      "value": "",
-      "type": "string"
+      "value": 6044,
+      "type": "number"
     }
   ]
 }
