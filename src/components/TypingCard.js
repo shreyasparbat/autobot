@@ -10,6 +10,7 @@ import {
     TextField,
     Button
 } from '@material-ui/core'
+import Icon from '@material-ui/core/Icon';
 
 // CSS import
 import './css/TypingCard.css'
@@ -36,12 +37,13 @@ export default class TypingCard extends React.Component {
     }
 
     render() {
+        const { subEvent,deleteSubEvent,deleteEvent} = this.props;
         return (
             <div className={'ui typing-card'}>
                 <Card elevation={3}>
-                    <Button onClick={this.props.deleteCard} variant={'contained'} color={'secondary'}>
-                        X
-                    </Button>
+                    <Icon className={'delete-event-button'} onClick={subEvent ? deleteSubEvent : deleteEvent}>
+                        clear
+                    </Icon>
                     <CardContent className={'content'}>
                         <Grid
                             container

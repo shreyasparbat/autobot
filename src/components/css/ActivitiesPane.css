@@ -1,0 +1,27 @@
+.list-header {
+	text-align:center;
+	background-color: white !important;
+	margin-bottom: 10px;
+}
+
+.list-header-text {
+	font-weight:'500';
+	padding:15px;
+}
+
+.activity-list {
+	padding:0 !important;
+}
+
+.variable-list {
+	overflow-y: scroll;
+	padding:0 !important;
+}
+
+.add-variable-input {
+	display: flex !important;
+	flex-direction: column !important;
+	padding: 8px;
+	background-color:white;
+	margin:auto;
+}

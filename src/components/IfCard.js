@@ -7,13 +7,14 @@ import axios from 'axios'
 // Other imports
 import './css/IfCard.css'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import ClickCard from './ClickCard'
 import TypingCard from './TypingCard'
 import ArrowDown from './css/ArrowDown.svg'
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
 
 export default class IfCard extends React.Component {
     // Retake mouse click
@@ -47,15 +48,24 @@ export default class IfCard extends React.Component {
         })    
     }
 
+    recordSubEvents(id,type){
+        axios.get(this.pyURL+'record-sub/'+this.props.botName,{params:{
+            id,
+            type
+        }}).then(reply=>{
+            this.props.updateBot(reply.data)
+        });
+    }
+
     render() {
         const { variables , event} = this.props
         const { varA, varB, operator, trueEvents, falseEvents , id } = event
         return (
             <div className={'ui if-card'}>
                 <Card elevation={3}>
-                    <Button onClick={this.props.deleteEvent} variant={'contained'} color={'secondary'}>
-                        X
-                    </Button>
+                    <Icon className={'delete-event-button'} onClick={this.props.deleteEvent}>
+                        clear
+                    </Icon>
                     <CardContent className={'content'}>
                         <div className={'title'}>
                             <Typography variant="h5" component="h2">
@@ -111,7 +121,7 @@ export default class IfCard extends React.Component {
                         }
                         </Select>
                         <div style={{justifyContent:'center',display:'flex',flexDirection:'row'}}>
-                            <div style={{flex:1}}>
+                            <div style={{flex:1,textAlign:'center'}}>
                                 <div className={'if-sub-title'}>
                                     <Typography variant="h5" component="h2">
                                         True
@@ -120,56 +130,65 @@ export default class IfCard extends React.Component {
                                         <img src={ArrowDown} alt={'arrow-down'}/>
                                     </div>
                                 </div>
-                                {
-                                // Dynamically load ClickCards and TypingCards
-                                trueEvents.map((event, index) => {
-                                    if (event.type === 'mouse' && event.direction === 'up') {
-                                        let start = index-1;
-                                        let end = index;
-                                        return (
-                                            <div>
-                                                <ClickCard subEvent={true} deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'true',id)}} />
-                                                <div className={'arrow-down'}>
-                                                    <img src={ArrowDown} alt={'arrow-down'}/>
+                                {   trueEvents.length == 0 ?  
+                                    <Button onPress={()=>{this.recordSubEvents(id,'true')}}variant={'contained'} color={'secondary'}>
+                                        Record
+                                    </Button>:
+                                    trueEvents.map((event, index) => {
+                                        if (event.type === 'mouse' && event.direction === 'up') {
+                                            let start = index-1;
+                                            let end = index;
+                                            return (
+                                                <div>
+                                                    <ClickCard subEvent={true} deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'true',id)}} />
+                                                    <div className={'arrow-down'}>
+                                                        <img src={ArrowDown} alt={'arrow-down'}/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    }
-                                    if (event.type === 'keyboard') {
-                                        let text = event.key
-
-                                        // Account for special key presses
-                                        if (this.specialKeys.includes(text)) {
-                                            this.checkboxesDict[text] = true
-                                            text = ''
-                                            event.nextKeys.map((key) => {
-                                                text += key
-                                            })
-                                        } else {
-                                            for (let i = index + 1; i < trueEvents.length; i++) {
-                                                const nextEvent = trueEvents[i]
-                                                if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key)) {
-                                                    text += nextEvent.key
-                                                    trueEvents.splice(i, 1)
-                                                    i--
-                                                } else {
-                                                    break
+                                            )
+                                        }
+                                        if (event.type === 'keyboard') {
+                                            let text = event.key
+                                            let endIndex = index;
+                                            // Account for special key presses
+                                            if (this.specialKeys.includes(text)) {
+                                                this.checkboxesDict[text] = true
+                                                text = ''
+                                                event.nextKeys.map((key) => {
+                                                    text += key
+                                                })
+                                            } else {
+                                                for (let i = index + 1; i < trueEvents.length; i++) {
+                                                    const nextEvent = trueEvents[i]
+                                                    if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key)) {
+                                                        text += nextEvent.key
+                                                        trueEvents.splice(i, 1)
+                                                        endIndex++
+                                                        i--
+                                                    } else {
+                                                        break
+                                                    }
                                                 }
                                             }
-                                        }
-                                        return (
-                                            <div>
-                                                <TypingCard checkboxesDict={this.checkboxesDict} text={text} />
-                                                <div className={'arrow-down'}>
-                                                    <img src={ArrowDown} alt={'arrow-down'}/>
+                                            let start = index;
+                                            let end = endIndex;
+                                            return (
+                                                <div>
+                                                    <TypingCard 
+                                                        subEvent={true}
+                                                        deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'true',id)}} 
+                                                        checkboxesDict={this.checkboxesDict} text={text} 
+                                                    />
+                                                    <div className={'arrow-down'}>
+                                                        <img src={ArrowDown} alt={'arrow-down'}/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    }
-                                })
+                                            )
+                                        }
+                                    })
                                 }
                             </div>
-                            <div style={{flex:1}}>
+                            <div style={{flex:1,textAlign:'center'}}>
                                 <div className={'if-sub-title'}>
                                     <Typography variant="h5" component="h2">
                                         False
@@ -180,6 +199,10 @@ export default class IfCard extends React.Component {
                                 </div>
                                 {
                                 // Dynamically load ClickCards and TypingCards
+                                falseEvents.length == 0 ? 
+                                <Button onPress={()=>{this.recordSubEvents(id,'false')}}variant={'contained'} color={'secondary'}>
+                                    Record
+                                </Button> : 
                                 falseEvents.map((event, index) => {
                                     if (event.type === 'mouse' && event.direction === 'up') {
                                         return (

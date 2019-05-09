@@ -10,15 +10,18 @@ import IfCard from './IfCard'
 import './css/WorkflowPanel.css'
 import ArrowDown from './css/ArrowDown.svg'
 
-export default class WorkflowPanel extends React.Component {
-    state = {
-        bot: {
-            variables: [],
-            events: []
-        }
-    }
+// Redux imports
+import {connect} from 'react-redux'
+import {updateBot} from '../actions/botAction'
+
+class WorkflowPanel extends React.Component {
     pyURL = 'http://127.0.0.1:5000/'
-    specialKeys = ['ctrlleft', 'altleft', 'shiftleft', 'winleft']
+    specialKeys = [
+        'ctrlleft', 
+        'altleft', 
+        'shiftleft', 
+        'winleft'
+    ]
     checkboxesDict = {
         ctrlleft: false,
         altleft: false,
@@ -31,9 +34,7 @@ export default class WorkflowPanel extends React.Component {
             start,
             end
         }}).then((reply)=>{
-            this.setState({
-                bot: reply.data
-            })
+            this.props.updateBot(reply.data)
         }) 
     }
 
@@ -44,21 +45,7 @@ export default class WorkflowPanel extends React.Component {
             eventType,
             id
         }}).then((reply)=>{
-            this.setState({
-                bot:reply.data
-            })
-        })
-    }
-    
-    componentDidMount() {
-        // Load steps
-        axios.get(this.pyURL + 'load-steps/' + this.props.botName).then((reply) => {
-            this.setState({
-                bot: reply.data
-            })
-        })
-        .catch(err=>{
-            console.log(err)
+            this.props.updateBot(reply.data)
         })
     }
 
@@ -68,7 +55,7 @@ export default class WorkflowPanel extends React.Component {
                 <Paper elevation={3}>
                     {
                         // Dynamically load ClickCards, TypingCards and IfCards
-                        this.state.bot.events.map((event, index) => {
+                        this.props.bot.events.map((event, index) => {
                             if (event.type === 'mouse' && event.direction === 'up') {
                                 let start = index-1
                                 let end = index
@@ -88,15 +75,16 @@ export default class WorkflowPanel extends React.Component {
                                 if (this.specialKeys.includes(text)) {
                                     this.checkboxesDict[text] = true
                                     text = ''
+                                    console.log(event);
                                     event.nextKeys.map((key) => {
                                         text += key
                                     })
                                 } else {
-                                    for (let i = index + 1; i < this.state.bot.events.length; i++) {
-                                        const nextEvent = this.state.bot.events[i]
+                                    for (let i = index + 1; i < this.props.bot.events.length; i++) {
+                                        const nextEvent = this.props.bot.events[i]
                                         if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key)) {
                                             text += nextEvent.key
-                                            this.state.bot.events.splice(i, 1)
+                                            this.props.bot.events.splice(i, 1)
                                             endIndex++
                                             i--
                                         } else {
@@ -120,7 +108,7 @@ export default class WorkflowPanel extends React.Component {
                                 let end = index;
                                 return (
                                     <div>
-                                        <IfCard deleteSubEvent={this.deleteSubEvent} deleteEvent={()=>{this.deleteEvent(start,end)}} event={event} variables={this.state.bot.variables} botName={this.props.botName}/>
+                                        <IfCard deleteSubEvent={this.deleteSubEvent} deleteEvent={()=>{this.deleteEvent(start,end)}} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
@@ -134,3 +122,12 @@ export default class WorkflowPanel extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    bot: state.botReducer.bot
+})
+
+const mapDispatchToProps = dispatch => ({
+    updateBot: (bot) => dispatch(updateBot(bot))
+})
+export default connect(mapStateToProps,mapDispatchToProps)(WorkflowPanel)

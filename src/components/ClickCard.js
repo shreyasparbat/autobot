@@ -8,6 +8,7 @@ import axios from 'axios'
 import './css/ClickCard.css'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
 
 export default class ClickCard extends React.Component {
     // Retake mouse click
@@ -18,9 +19,9 @@ export default class ClickCard extends React.Component {
         return (
             <div className={'ui click-card'}>
                 <Card elevation={3}>
-                    <Button onClick={subEvent ? deleteSubEvent : deleteEvent} variant={'contained'} color={'secondary'}>
-                        X
-                    </Button>
+                    <Icon className={'delete-event-button'} onClick={subEvent ? deleteSubEvent : deleteEvent}>
+                        clear
+                    </Icon>
                     <CardContent className={'content'}>
                         <div className={'title'}>
                             <Typography variant="h5" component="h2">

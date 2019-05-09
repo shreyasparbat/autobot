@@ -13,3 +13,11 @@
 .retake-button {
     text-align: center;
 }
+
+.delete-event-button {
+	position:relative;
+	right:7px;
+	top:7px;
+	float:right;
+	cursor: pointer;
+}

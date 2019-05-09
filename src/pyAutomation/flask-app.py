@@ -152,7 +152,22 @@ def add_variable(bot_name):
     with open(bot_file_path, 'w') as bot_file:
         # Replace current bot in bot_file with new bot
         json.dump(bot, bot_file, indent=2)
-    return(jsonify(variable))
+    return(jsonify(bot))
+
+@app.route('/delete-variable/<bot_name>', methods=['GET'])
+def delete_variable(bot_name):
+    index = int(request.args.get('index',None))
+    bot_file_path = os.path.join(os.getcwd(),bot_name+'.json')
+    # Load existing bot from given file
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        variables = bot["variables"]
+        del variables[index:index+1]
+    # Open bot_file in write mode
+    with open(bot_file_path, 'w') as bot_file:
+        # Replace current bot in bot_file with new bot
+        json.dump(bot, bot_file, indent=2)
+    return(jsonify(bot))   
 
 
 @app.route('/edit-variable/<bot_name>', methods=['GET'])
@@ -171,7 +186,7 @@ def edit_variable(bot_name):
                 break
     with open(bot_file_path,'w') as bot_file:
         json.dump(bot,bot_file,indent=2)
-    return('success')
+    return(jsonify(bot))
 
 @app.route('/add-if-event/<bot_name>')
 def add_if_event(bot_name):
