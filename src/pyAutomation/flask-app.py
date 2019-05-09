@@ -38,6 +38,15 @@ def record(bot_name):
     # Exit route
     return 'success'
 
+@app.route('/record-sub/<bot_name>',methods=["GET"])
+def record_sub(bot_name):
+    ifEventId  = request.args.get('id', None)
+    ifEventsType = request.args.get('type',None)
+    # Spawn process to record
+    os.system('python if-recorder.py ' + bot_name + ' ' + ifEventId + ' ' +ifEventsType)
+    # Exit route
+    return 'success'
+
 
 @app.route('/play/<bot_name>')
 def play(bot_name):

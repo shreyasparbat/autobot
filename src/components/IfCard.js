@@ -53,7 +53,7 @@ export default class IfCard extends React.Component {
             id,
             type
         }}).then(reply=>{
-            this.props.updateBot(reply.data)
+            console.log('success!')
         });
     }
 
@@ -130,10 +130,7 @@ export default class IfCard extends React.Component {
                                         <img src={ArrowDown} alt={'arrow-down'}/>
                                     </div>
                                 </div>
-                                {   trueEvents.length == 0 ?  
-                                    <Button onPress={()=>{this.recordSubEvents(id,'true')}}variant={'contained'} color={'secondary'}>
-                                        Record
-                                    </Button>:
+                                { 
                                     trueEvents.map((event, index) => {
                                         if (event.type === 'mouse' && event.direction === 'up') {
                                             let start = index-1;
@@ -187,6 +184,9 @@ export default class IfCard extends React.Component {
                                         }
                                     })
                                 }
+                                <Button onClick={()=>{this.recordSubEvents(id,'true')}}variant={'contained'} color={'secondary'}>
+                                    Record
+                                </Button>
                             </div>
                             <div style={{flex:1,textAlign:'center'}}>
                                 <div className={'if-sub-title'}>
@@ -199,10 +199,6 @@ export default class IfCard extends React.Component {
                                 </div>
                                 {
                                 // Dynamically load ClickCards and TypingCards
-                                falseEvents.length == 0 ? 
-                                <Button onPress={()=>{this.recordSubEvents(id,'false')}}variant={'contained'} color={'secondary'}>
-                                    Record
-                                </Button> : 
                                 falseEvents.map((event, index) => {
                                     if (event.type === 'mouse' && event.direction === 'up') {
                                         return (
@@ -247,6 +243,9 @@ export default class IfCard extends React.Component {
                                     }
                                 })
                                 }
+                                <Button onClick={()=>{this.recordSubEvents(id,'false')}}variant={'contained'} color={'secondary'}>
+                                    Record
+                                </Button>
                             </div>
                         </div>
                     </CardContent>

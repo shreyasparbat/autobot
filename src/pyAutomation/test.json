@@ -4,11 +4,17 @@
       "id": "294c5fa9-8610-4935-b7e0-bf68bb47665e",
       "type": "if",
       "varA": "",
-      "varB": "",
+      "varB": "Hello",
       "operator": "==",
       "trueEvents": [],
       "falseEvents": []
     }
   ],
-  "variables": []
+  "variables": [
+    {
+      "name": "Hello",
+      "value": "asdf",
+      "type": "string"
+    }
+  ]
 }

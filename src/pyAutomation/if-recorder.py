@@ -45,8 +45,20 @@ def on_keyboard_event(event):
         # Load existing bot from given file
         with open(bot_file_path) as bot_file:
             bot = json.load(bot_file)
-            # Merge newly created event_sequence with existing one
-            bot['events'] += event_sequence
+            # If the most recent event is an if event, append the recorded sequence to the if statement instead
+            events = bot["events"]
+            for event in events:
+                try:
+                    if if_event_id == event["id"]:
+                        if_event = event
+                        break
+                except IndexError:
+                    pass
+            if if_events_type == 'true':
+                if_event["trueEvents"] += event_sequence
+            else:
+                if_event["falseEvents"] += event_sequence
+
 
         # Open bot_file in write mode
         with open(bot_file_path, 'w') as bot_file:
@@ -159,6 +171,8 @@ def handle_special_keys(event):
 
 # Get bot_file_path from electron
 bot_name = sys.argv[1]
+if_event_id = sys.argv[2]
+if_events_type = sys.argv[3]
 bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
 
 # Initialise global list of events
