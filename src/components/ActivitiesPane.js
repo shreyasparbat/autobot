@@ -32,7 +32,7 @@ class ActivitiesPane extends React.Component {
     // Define actions taken when activity is selected
 
     componentWillMount(){
-        console.log(this.props.bot.variables)
+        // console.log(this.props.bot.variables)
     }
     selectActivity(activityIndex) {
         // If card
@@ -89,6 +89,8 @@ class ActivitiesPane extends React.Component {
             })            
         }
     }
+
+
 
     render() {
         return (

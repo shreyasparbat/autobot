@@ -14,10 +14,35 @@ export default class ClickCard extends React.Component {
     // Retake mouse click
     pyURL = 'http://127.0.0.1:5000/'
 
+    onDrag = (event) => {
+        event.preventDefault();
+        this.setState({
+            draggedTask: 'hi'
+        });
+    }
+
+    onDragOver = (event) => {
+      event.preventDefault();
+    }
+    onDrop = (event ) => {
+        // const { completedTasks, draggedTask, todos } = this.state;
+        // this.setState({
+        //     completedTasks: [...completedTasks, draggedTask],
+        //     todos: todos.filter(task => task.taskID !== draggedTask.taskID),
+        //     draggedTask: {},
+        // });
+        alert('hi!');
+    }
+
     render() {
         const { subEvent,deleteSubEvent,deleteEvent} = this.props;
         return (
-            <div className={'ui click-card'}>
+            <div draggable 
+                onDrag={(event) => this.onDrag(event)} 
+                onDragOver={(event => this.onDragOver(event))}
+                onDrop={event => this.onDrop(event)}
+                className={'ui click-card'}
+            >
                 <Card elevation={3}>
                     <Icon className={'delete-event-button'} onClick={subEvent ? deleteSubEvent : deleteEvent}>
                         clear

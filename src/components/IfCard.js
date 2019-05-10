@@ -28,7 +28,7 @@ export default class IfCard extends React.Component {
         }
     }
     pyURL = 'http://127.0.0.1:5000/'
-    operators = ['==','<=','>=']
+    operators = ['==','<=','>=','!=']
     specialKeys = ['ctrlleft', 'altleft', 'shiftleft', 'winleft']
     checkboxesDict = {
         ctrlleft: false,

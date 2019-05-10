@@ -197,6 +197,44 @@ def edit_variable(bot_name):
         json.dump(bot,bot_file,indent=2)
     return(jsonify(bot))
 
+@app.route('/edit-typing-event/<bot_name>')
+def edit_typing_event(bot_name):
+    data = json.loads(request.args.get('data',None))
+    startEventIndex = data["start"]
+    endEventIndex = data["end"]
+    newText = data["text"]
+    specialKeys = data["specialKeys"]
+
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+
+    window = events[startEventIndex]["window"]
+    startTime = events[startEventIndex]["time"]
+    windowName = events[startEventIndex]["windowName"]
+
+    del events[startEventIndex:endEventIndex+1]
+    if len(specialKeys) > 0:
+        pass
+    else:
+        for letterIndex in range(len(newText)):
+            key = newText[letterIndex]
+            events.insert(startEventIndex+letterIndex,
+                {
+                    "type": "keyboard",
+                    "messageName": "key down",
+                    "time": startTime+letterIndex,
+                    "window": window,
+                    "windowName": windowName,
+                    "ascii": ord(key),
+                    "key": key,
+                }
+            )
+        with open(bot_file_path,'w') as bot_file:
+            json.dump(bot,bot_file,indent=2)
+        return(jsonify(bot))
+
 @app.route('/add-if-event/<bot_name>')
 def add_if_event(bot_name):
     bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')

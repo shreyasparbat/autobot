@@ -11,11 +11,16 @@ import {
     Button
 } from '@material-ui/core'
 import Icon from '@material-ui/core/Icon';
+import axios from 'axios'
 
 // CSS import
 import './css/TypingCard.css'
 
-export default class TypingCard extends React.Component {
+// Redux imports
+import {connect} from 'react-redux'
+import {updateBot} from '../actions/botAction'
+
+class TypingCard extends React.Component {
     state = {
         checkedCtrl: this.props.checkboxesDict.ctrlleft,
         checkedAlt: this.props.checkboxesDict.altleft,
@@ -23,6 +28,7 @@ export default class TypingCard extends React.Component {
         checkedWin: this.props.checkboxesDict.winleft,
         text: this.props.text
     }
+    pyURL = 'http://127.0.0.1:5000/'
 
     handleCheckboxChange = name => (event) => {
         this.setState({
@@ -36,12 +42,38 @@ export default class TypingCard extends React.Component {
         })
     }
 
+    saveChanges = () => {
+        const {start,end} = this.props;
+        const {text} = this.state;
+        let specialKeys = [];
+        // for(let key in this.state){
+        //     if(this.state[key] && key != 'text'){
+        //         specialKeys.push(key);
+        //     }
+        // }
+        const ifEvent = {
+            start,
+            end,
+            text,
+            specialKeys
+        }
+        console.log(JSON.stringify(ifEvent));
+        axios.get(this.pyURL+'edit-typing-event/test',{params:{
+            data: JSON.stringify(ifEvent)
+        }}).then((reply)=>{
+            this.props.updateBot(reply.data)
+        })
+    }
+
+    componentDidMount = () => {
+    }
+
     render() {
-        const { subEvent,deleteSubEvent,deleteEvent} = this.props;
+        const { subEvent,deleteSubEvent,deleteEvent,start,end} = this.props;
         return (
             <div className={'ui typing-card'}>
                 <Card elevation={3}>
-                    <Icon className={'delete-event-button'} onClick={subEvent ? deleteSubEvent : deleteEvent}>
+                    <Icon className={'delete-event-button'} onClick={subEvent ? deleteSubEvent : ()=>{deleteEvent(start,end)}}>
                         clear
                     </Icon>
                     <CardContent className={'content'}>
@@ -109,12 +141,13 @@ export default class TypingCard extends React.Component {
                                 id="outlined-text"
                                 label="Text"
                                 value={this.state.text}
+                                // onBlur={()=>{alert('hi!')}}
                                 onChange={this.handleTextChange('text')}
                                 margin="normal"
                                 variant="outlined"
                                 color={'inherit'}
                             />
-                            <Button variant={'contained'} color={'secondary'}>
+                            <Button onClick={this.saveChanges} variant={'contained'} color={'secondary'}>
                                 Change
                             </Button>
                         </Grid>
@@ -124,3 +157,9 @@ export default class TypingCard extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    updateBot: (bot) => {dispatch(updateBot(bot))}
+})
+
+export default connect(null,mapDispatchToProps)(TypingCard)

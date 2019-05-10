@@ -2,6 +2,7 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import axios from 'axios'
+import Sortable from 'react-sortablejs';
 
 // Custom component imports
 import ClickCard from './ClickCard'
@@ -50,27 +51,30 @@ class WorkflowPanel extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <Paper elevation={3}>
-                    {
-                        // Dynamically load ClickCards, TypingCards and IfCards
-                        this.props.bot.events.map((event, index) => {
+        // Dynamically load ClickCards, TypingCards and IfCards
+        const cards = this.props.bot.events.map((event, index) => {
                             if (event.type === 'mouse' && event.direction === 'up') {
                                 let start = index-1
                                 let end = index
                                 return (
-                                    <div>
+                                    <li key={event.time}>
                                         <ClickCard deleteEvent={()=>{this.deleteEvent(start,end)}} />
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
-                                    </div>
+                                    </li>
                                 )
                             }
                             if (event.type === 'keyboard') {
                                 let text = event.key
                                 let endIndex = index;
+                                //Reset checkBoxesDict to initial state 
+                                this.checkboxesDict = {
+                                    ctrlleft: false,
+                                    altleft: false,
+                                    shiftleft: false,
+                                    winleft: false,
+                                }
                                 // Account for special key presses
                                 if (this.specialKeys.includes(text)) {
                                     this.checkboxesDict[text] = true
@@ -95,28 +99,35 @@ class WorkflowPanel extends React.Component {
                                 let start = index;
                                 let end = endIndex;
                                 return (
-                                    <div>
-                                        <TypingCard deleteEvent={()=>{this.deleteEvent(start,end)}} checkboxesDict={this.checkboxesDict} text={text} />
+                                    <li key={event.time}>
+                                        <TypingCard start={start} end={end} deleteEvent={this.deleteEvent} checkboxesDict={this.checkboxesDict} text={text} />
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
-                                    </div>
+                                    </li>
                                 )
                             }
                             if(event.type === 'if'){
                                 let start = index;
                                 let end = index;
                                 return (
-                                    <div>
+                                    <li key={event.time}>
                                         <IfCard deleteSubEvent={this.deleteSubEvent} deleteEvent={()=>{this.deleteEvent(start,end)}} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                         <div className={'arrow-down'}>
                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                         </div>
-                                    </div>
+                                    </li>
                                 )
                             }
                         })
-                    }
+        return (
+            <div>
+                <Paper elevation={3}>
+                    <Sortable
+                        tag="ul"
+                    >
+                        {cards}
+                    </Sortable>
                 </Paper>
             </div>
         )
