@@ -52,12 +52,12 @@ class TypingCard extends React.Component {
         //     }
         // }
         const ifEvent = {
+            id,
             start,
             end,
             text,
             specialKeys
         }
-        console.log(JSON.stringify(ifEvent));
         axios.get(this.pyURL+'edit-typing-event/test',{params:{
             data: JSON.stringify(ifEvent)
         }}).then((reply)=>{

@@ -47,6 +47,14 @@ def record_sub(bot_name):
     # Exit route
     return 'success'
 
+@app.route('/record-loop-events/<bot_name>',methods=["GET"])
+def record_loop_events(bot_name):
+    loop_event_id = request.args.get('id',None)
+    # Spawn process to record loop events
+    os.system('python loop-events-recorder.py ' + bot_name + ' ' + loop_event_id)
+    # Exit route
+    return 'success'
+
 
 @app.route('/play/<bot_name>')
 def play(bot_name):
@@ -89,6 +97,10 @@ def play(bot_name):
             if event['type'] == 'if':
                 execute_if_event(event,variables)
 
+            # For loop events
+            if event['type'] == 'loop':
+                execute_loop_event(event)
+
 
     def execute_if_event(event,variables):
         varA = event["varA"]
@@ -113,8 +125,13 @@ def play(bot_name):
         if eval('varAVal '+operator+' varBVal'):
             execute_events(trueEvents)
         else:
-            execute_events(falseEvents)            
+            execute_events(falseEvents)     
 
+    def execute_loop_event(event):
+        if_events = event['events']
+        times = event['times']
+        for i in range(int(times)):
+            execute_events(if_events)
 
     # Get bot_file_path from electron
     bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
@@ -137,6 +154,32 @@ def load_steps(bot_name):
     with open(bot_file_path) as bot_file:
         bot = json.load(bot_file)
         return jsonify(bot)
+
+@app.route('/reorder-events/<bot_name>', methods=['GET'])
+def reorder_events(bot_name):
+    data = request.args.get('data')
+    data = json.loads(data)
+    order = data["order"]
+    # Get bot_file_path from electron
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+
+    reorderedEvents = []
+    for event in order:
+        event = json.loads(event)
+        start = event["start"]
+        end = event["end"]
+        reorderedEvents += (events[start:end+1])
+
+    bot["events"] = reorderedEvents;
+
+    with open(bot_file_path, 'w') as bot_file:
+        # Replace current bot in bot_file with new bot
+        json.dump(bot, bot_file, indent=2)
+    return(jsonify(bot))
 
 @app.route('/add-variable/<bot_name>', methods=['GET'])
 def add_variable(bot_name):
@@ -308,35 +351,171 @@ def delete_sub_event(bot_name):
     event_id = request.args.get('id',None)
     start  = int(request.args.get('start', None))
     end = int(request.args.get('end', None))
-    eventType = request.args.get('eventType', None)
-
-    print(event_id)
+    sub_event_field = request.args.get('field', None)
 
     bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
 
     with open(bot_file_path) as bot_file:
         bot = json.load(bot_file)
         events = bot["events"]
-        print(len(events))
 
     for event in events:
         try:
             if event['id'] == event_id:
-                ifEvent = event
+                mainEvent = event
                 break
         except KeyError:
             pass
 
-    if eventType == 'true':
-        subEvents = ifEvent["trueEvents"]
-    else:
-        subEvents = ifEvent["falseEvents"]
-
+    subEvents = mainEvent[sub_event_field]
     del subEvents[start:end+1]
 
     with open(bot_file_path,'w') as bot_file:
         json.dump(bot,bot_file,indent=2)
     return(jsonify(bot))
+
+@app.route('/add-sub-event/<bot_name>', methods=['GET'])
+def add_sub_event(bot_name):
+    event_id = request.args.get('id',None)
+    event_type = request.args.get('type', None)
+    sub_event_field = request.args.get('field', None)
+
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+
+    # Find event in bot by id
+    for event in events:
+        try:
+            if event['id'] == event_id:
+                mainEvent = event
+                break
+        except KeyError:
+            pass
+
+    subEvents = mainEvent[sub_event_field]
+    print(subEvents)
+    if(event_type == 'mouse click'):
+        subEvents.append({
+            'type': 'mouse',
+            'button': 'left',
+            'direction': 'down',
+            'time': time.time(),
+            'position': [0,0]
+        })
+        subEvents.append({
+            'type': 'mouse',
+            'button': 'left',
+            'direction': 'up',
+            'time': time.time(),
+            'position': [0,0]
+        })
+    elif(event_type == 'type'):   
+        subEvents.append({
+            'type': 'keyboard',
+            'time': time.time(),
+            'ascii': ord('a'),
+            'key': 'a',
+        })
+
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return(jsonify(bot))
+
+@app.route('/edit-sub-typing-event/<bot_name>', methods=['GET'])
+def edit_sub_typing_event(bot_name):
+    event_id = request.args.get('id',None)
+    sub_event_field = request.args.get('field', None)
+    startEventIndex = request.args.get('start', None)
+    endEventIndex = request.args.get('end', None)
+    newText = request.args.get('text', None)
+    specialKeys = []
+
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+
+    # Find event in bot by id
+    for event in events:
+        try:
+            if event['id'] == event_id:
+                mainEvent = event
+                break
+        except KeyError:
+            pass
+
+    subEvents = mainEvent[sub_event_field]
+    window = subEvents[startEventIndex]["window"]
+    startTime = subEvents[startEventIndex]["time"]
+    windowName = subEvents[startEventIndex]["windowName"]
+
+    del subEvents[startEventIndex:endEventIndex+1]
+    if len(specialKeys) > 0:
+        pass
+    else:
+        for letterIndex in range(len(newText)):
+            key = newText[letterIndex]
+            subEvents.insert(startEventIndex+letterIndex,
+                {
+                    "type": "keyboard",
+                    "messageName": "key down",
+                    "time": startTime+letterIndex,
+                    "window": window,
+                    "windowName": windowName,
+                    "ascii": ord(key),
+                    "key": key,
+                }
+            )
+
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return(jsonify(bot))
+
+@app.route('/add-loop-event/<bot_name>',methods=['GET'])
+def add_loop_event(bot_name):
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+        # By default just use the first two variables and an == operator
+        loop_event = {
+            "id": str(uuid4()),
+            "type": 'loop',
+            "times": 2,
+            "events": []
+        }
+        events.append(loop_event)
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return(jsonify(bot))
+
+@app.route('/edit-loop-event/<bot_name>',methods=['GET'])
+def edit_loop_event(bot_name):
+    event_id  = request.args.get('id', None)
+    newValue = request.args.get('newValue',None)
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    with open(bot_file_path) as bot_file:
+        bot = json.load(bot_file)
+        events = bot["events"]
+
+    for event in events:
+        try:
+            if event['id'] == event_id:
+                loopEvent = event
+                break
+        except KeyError:
+            pass
+    loopEvent['times'] = int(newValue)
+    with open(bot_file_path,'w') as bot_file:
+        json.dump(bot,bot_file,indent=2)
+    return('success')
+
+
 
 if __name__ == '__main__':
     app.run()

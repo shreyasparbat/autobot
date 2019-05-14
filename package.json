@@ -15,6 +15,7 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
+    "react-drag-and-drop": "^3.0.0",
     "react-redux": "^7.0.3",
     "react-scripts": "2.1.8",
     "react-sortablejs": "^1.5.1",

@@ -137,7 +137,7 @@ export default class IfCard extends React.Component {
                                             let end = index;
                                             return (
                                                 <div>
-                                                    <ClickCard subEvent={true} deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'true',id)}} />
+                                                    <ClickCard subEvent={true} deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'trueEvents',id)}} />
                                                     <div className={'arrow-down'}>
                                                         <img src={ArrowDown} alt={'arrow-down'}/>
                                                     </div>
@@ -173,7 +173,7 @@ export default class IfCard extends React.Component {
                                                 <div>
                                                     <TypingCard 
                                                         subEvent={true}
-                                                        deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'true',id)}} 
+                                                        deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'trueEvents',id)}} 
                                                         checkboxesDict={this.checkboxesDict} text={text} 
                                                     />
                                                     <div className={'arrow-down'}>
@@ -201,9 +201,14 @@ export default class IfCard extends React.Component {
                                 // Dynamically load ClickCards and TypingCards
                                 falseEvents.map((event, index) => {
                                     if (event.type === 'mouse' && event.direction === 'up') {
+                                        let start = index-1;
+                                        let end = index;
                                         return (
                                             <div>
-                                                <ClickCard subEvent={true} />
+                                                <ClickCard 
+                                                    subEvent={true} 
+                                                    deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'falseEvents',id)}}
+                                                />
                                                 <div className={'arrow-down'}>
                                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                                 </div>
@@ -212,7 +217,7 @@ export default class IfCard extends React.Component {
                                     }
                                     if (event.type === 'keyboard') {
                                         let text = event.key
-
+                                        let endIndex = index;
                                         // Account for special key presses
                                         if (this.specialKeys.includes(text)) {
                                             this.checkboxesDict[text] = true
@@ -226,15 +231,22 @@ export default class IfCard extends React.Component {
                                                 if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key)) {
                                                     text += nextEvent.key
                                                     falseEvents.splice(i, 1)
+                                                    endIndex++
                                                     i--
                                                 } else {
                                                     break
                                                 }
                                             }
                                         }
+                                        let start = index;
+                                        let end = endIndex;
                                         return (
                                             <div>
-                                                <TypingCard checkboxesDict={this.checkboxesDict} text={text} />
+                                                <TypingCard 
+                                                    subEvent={true}
+                                                    deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'falseEvents',id)}} 
+                                                    checkboxesDict={this.checkboxesDict} text={text} 
+                                                />
                                                 <div className={'arrow-down'}>
                                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                                 </div>

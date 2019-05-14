@@ -14,6 +14,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card'
+import {Draggable} from 'react-drag-and-drop'
 
 // Redux imports
 import {updateBot} from '../actions/botAction'
@@ -38,6 +39,12 @@ class ActivitiesPane extends React.Component {
         // If card
         if(activityIndex == 2){
             axios.get(this.pyURL+'add-if-event/'+this.props.botName).then(reply=>{
+                this.props.updateBot(reply.data)
+            })
+        }
+        //Loop card
+        if(activityIndex == 3){
+            axios.get(this.pyURL+'add-loop-event/'+this.props.botName).then(reply=>{
                 this.props.updateBot(reply.data)
             })
         }
@@ -109,14 +116,16 @@ class ActivitiesPane extends React.Component {
                                 <Typography variant="h5" className={'list-header-text'}>Activities</Typography>
                             }/>
                         </ListSubheader>
-                        {['Mouse Click', 'Type', 'If'].map((text, index) => (
-                            <ListItem
-                                button
-                                key={text}
-                                onClick={() => this.selectActivity(index)}
-                            >
-                                <ListItemText primary={text} />
-                            </ListItem>
+                        {['Mouse Click', 'Type', 'If','Loop'].map((text, index) => (
+                            <Draggable type="activity" data={text}>
+                                <ListItem
+                                    button
+                                    key={text}
+                                    onClick={() => this.selectActivity(index)}
+                                >
+                                    <ListItemText primary={text} />
+                                </ListItem>
+                            </Draggable>
                         ))}
                     </List>
                     <Divider />
