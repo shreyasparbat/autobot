@@ -497,7 +497,6 @@ def delete_event(bot_name):
                     break
             except KeyError:
                 pass
-        target_child_events = target_event[child_event_field]
         child_events = delete_child_events(target_event,child_events)
         del events[start:end+1]
     # Case where deleted event has no children and has a parent
