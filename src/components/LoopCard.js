@@ -12,6 +12,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import ClickCard from './ClickCard'
 import TypingCard from './TypingCard'
+import IfCard from './IfCard'
+import ReadCard from './ReadCard'
 import ArrowDown from './css/ArrowDown.svg'
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
@@ -46,17 +48,18 @@ class LoopCard extends React.Component {
         })    
     }
 
-    recordSubEvents(id,type){
-        axios.get(this.pyURL+'record-loop-events/'+this.props.botName,{params:{
+    recordChildEvents(id,field){
+        axios.get(this.pyURL+'record-child/'+this.props.botName,{params:{
             id,
+            field
         }}).then(reply=>{
             console.log('success!')
         });
     }
 
     onDrop = (data,event) => {
-        axios.get(this.pyURL+`add-sub-event/`+this.props.botName,{params:{
-            "id": this.props.event.id,
+        axios.get(this.pyURL+`add-event/`+this.props.botName,{params:{
+            "parent": this.props.event.id,
             "type":data['activity'].toLowerCase(),
             "field":"events"
         }}).then(reply=>{
@@ -65,8 +68,9 @@ class LoopCard extends React.Component {
     }
 
     render() {
-        const { event } = this.props
+        const { event , start , end , field , parentId , } = this.props
         const { events , id } = event
+        console.log(this.props)
         return (
             <Droppable
                 types={['activity']} // <= allowed drop types
@@ -74,7 +78,7 @@ class LoopCard extends React.Component {
             >
                 <div className={'ui if-card'}>
                     <Card elevation={3}>
-                        <Icon className={'delete-event-button'} onClick={this.props.deleteEvent}>
+                        <Icon className={'delete-event-button'} onClick={()=>{this.props.deleteEvent(start,end,field,parentId,id)}}>
                             clear
                         </Icon>
                         <CardContent className={'content'}>
@@ -98,12 +102,18 @@ class LoopCard extends React.Component {
                                     </div>
                                     { 
                                         events.map((event, index) => {
+                                            console.log(this.props.bot)
+                                            if(event.type == 'child'){
+                                                event = this.props.bot.childEvents.find(childEvent => {
+                                                    return childEvent.id == event.id
+                                                });
+                                            }
                                             if (event.type === 'mouse' && event.direction === 'up') {
                                                 let start = index-1;
                                                 let end = index;
                                                 return (
                                                     <div>
-                                                        <ClickCard subEvent={true} deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'events',id)}} />
+                                                        <ClickCard deleteEvent={()=>{this.props.deleteEvent(start,end,'events',id)}} />
                                                         <div className={'arrow-down'}>
                                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                                         </div>
@@ -138,10 +148,48 @@ class LoopCard extends React.Component {
                                                 return (
                                                     <div>
                                                         <TypingCard 
-                                                            subEvent={true}
-                                                            deleteSubEvent={()=>{this.props.deleteSubEvent(start,end,'events',id)}} 
-                                                            checkboxesDict={this.checkboxesDict} text={text} 
+                                                            field={'events'}
+                                                            event={event}
+                                                            deleteEvent={()=>{this.props.deleteEvent(start,end,'events',id)}} 
+                                                            checkboxesDict={this.checkboxesDict} 
+                                                            text={text} 
                                                         />
+                                                        <div className={'arrow-down'}>
+                                                            <img src={ArrowDown} alt={'arrow-down'}/>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                            if(event.type === 'if'){
+                                                let start = index;
+                                                let end = index;
+                                                return (
+                                                    <div data-id={JSON.stringify({start,end})} key={event.time}>
+                                                        <IfCard start={start} end={end} field={'events'} parentId={id} deleteEvent={this.props.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                                        <div className={'arrow-down'}>
+                                                            <img src={ArrowDown} alt={'arrow-down'}/>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }  
+                                            if(event.type === 'loop'){
+                                                let start = index;
+                                                let end = index;
+                                                return (
+                                                    <div data-id={JSON.stringify({start,end})} key={event.time}>
+                                                        <LoopCard start={start} end={end} field={'events'} parentId={id} deleteEvent={this.props.deleteEvent} bot={this.props.bot} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                                        <div className={'arrow-down'}>
+                                                            <img src={ArrowDown} alt={'arrow-down'}/>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                            if(event.type == 'read'){
+                                                let start = index;
+                                                let end = index;
+                                                return (
+                                                    <div data-id={JSON.stringify({start,end})} key={event.time}>
+                                                        <ReadCard start={start} end={end} index={index} field={'events'} parentId={id} deleteEvent={this.props.deleteEvent} bot={this.props.bot} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                                         <div className={'arrow-down'}>
                                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                                         </div>
@@ -150,7 +198,7 @@ class LoopCard extends React.Component {
                                             }
                                         })
                                     }
-                                    <Button onClick={()=>{this.recordSubEvents(id,'true')}}variant={'contained'} color={'secondary'}>
+                                    <Button onClick={()=>{this.recordChildEvents(id,'events')}}variant={'contained'} color={'secondary'}>
                                         Record
                                     </Button>
                                 </div>
@@ -163,8 +211,13 @@ class LoopCard extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({
+    bot: state.botReducer.bot
+})
+
 const mapDispatchToProps = dispatch => ({
     updateBot: (bot)=>{dispatch(updateBot(bot))}
 })
 
-export default connect(null,mapDispatchToProps)(LoopCard)
+
+export default connect(mapStateToProps,mapDispatchToProps)(LoopCard)

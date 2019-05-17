@@ -12,6 +12,11 @@ import {
 } from '@material-ui/core'
 import Icon from '@material-ui/core/Icon';
 import axios from 'axios'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Input from '@material-ui/core/Input';
 
 // CSS import
 import './css/TypingCard.css'
@@ -26,7 +31,9 @@ class TypingCard extends React.Component {
         checkedAlt: this.props.checkboxesDict.altleft,
         checkedShift: this.props.checkboxesDict.shiftleft,
         checkedWin: this.props.checkboxesDict.winleft,
-        text: this.props.text
+        text: this.props.text,
+        variable: this.props.event.variable,
+        tabValue: this.props.text ? 0 : 1,
     }
     pyURL = 'http://127.0.0.1:5000/'
 
@@ -36,6 +43,10 @@ class TypingCard extends React.Component {
         })
     }
 
+    handleTabChange = (event, value) => {
+        this.setState({ tabValue:value });
+    }
+
     handleTextChange = text => (event) => {
         this.setState({
             [text]: event.target.value
@@ -43,23 +54,36 @@ class TypingCard extends React.Component {
     }
 
     saveChanges = () => {
-        const {start,end} = this.props;
-        const {text} = this.state;
+        const {start,end,parent,field} = this.props;
+        const {text,variable,tabValue} = this.state;
         let specialKeys = [];
         // for(let key in this.state){
         //     if(this.state[key] && key != 'text'){
         //         specialKeys.push(key);
         //     }
         // }
-        const ifEvent = {
-            id,
-            start,
-            end,
-            text,
-            specialKeys
+        let typingEvent;
+        if(tabValue == 0){
+            typingEvent = {
+                start,
+                end,
+                text,
+                specialKeys,
+                parent,
+                field
+            }
+        } else {
+            typingEvent = {
+                start,
+                end,
+                specialKeys,
+                variable,
+                parent,
+                field
+            }
         }
         axios.get(this.pyURL+'edit-typing-event/test',{params:{
-            data: JSON.stringify(ifEvent)
+            ...typingEvent
         }}).then((reply)=>{
             this.props.updateBot(reply.data)
         })
@@ -69,11 +93,11 @@ class TypingCard extends React.Component {
     }
 
     render() {
-        const { subEvent,deleteSubEvent,deleteEvent,start,end} = this.props;
+        const { deleteEvent,start,end} = this.props;
         return (
             <div className={'ui typing-card'}>
                 <Card elevation={3}>
-                    <Icon className={'delete-event-button'} onClick={subEvent ? deleteSubEvent : ()=>{deleteEvent(start,end)}}>
+                    <Icon className={'delete-event-button'} onClick={deleteEvent}>
                         clear
                     </Icon>
                     <CardContent className={'content'}>
@@ -137,16 +161,44 @@ class TypingCard extends React.Component {
                                     />
                                 </FormGroup>
                             </div>
-                            <TextField
-                                id="outlined-text"
-                                label="Text"
-                                value={this.state.text}
-                                // onBlur={()=>{alert('hi!')}}
-                                onChange={this.handleTextChange('text')}
-                                margin="normal"
-                                variant="outlined"
-                                color={'inherit'}
-                            />
+                            <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
+                                <Tab label="Text" />
+                                <Tab label="Variable" />
+                            </Tabs>
+                            {
+                                this.state.tabValue === 0 &&
+                                <TextField
+                                    id="outlined-text"
+                                    label="Text"
+                                    value={this.state.text}
+                                    // onBlur={()=>{alert('hi!')}}
+                                    onChange={this.handleTextChange('text')}
+                                    margin="normal"
+                                    variant="outlined"
+                                    color={'inherit'}
+                                />
+                            }
+                            {
+                                this.state.tabValue === 1 && 
+                                <Select
+                                    className={'if-card-option'}
+                                    value={this.state.variable ? this.state.variable : ''}
+                                    onChange={(event)=>{
+                                        this.setState({
+                                            variable:event.target.value
+                                        })
+                                    }}
+                                    input={<Input name="name" id="name-disabled" />}
+                                >
+                                {
+                                    this.props.bot.variables.map((variable,index)=>{
+                                        return(
+                                            <MenuItem key={variable.name} value={variable.name}>{variable.name}</MenuItem>
+                                        )
+                                    })
+                                }
+                                </Select>
+                            }
                             <Button onClick={this.saveChanges} variant={'contained'} color={'secondary'}>
                                 Change
                             </Button>
@@ -158,8 +210,11 @@ class TypingCard extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({
+    bot: state.botReducer.bot
+})
 const mapDispatchToProps = dispatch => ({
     updateBot: (bot) => {dispatch(updateBot(bot))}
 })
 
-export default connect(null,mapDispatchToProps)(TypingCard)
+export default connect(mapStateToProps,mapDispatchToProps)(TypingCard)

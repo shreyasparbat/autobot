@@ -3,7 +3,8 @@ import { UPDATE_BOT } from '../constants.js'
 let initialState = {
 	bot: {
 		events:[],
-		variables:[]
+		variables:[],
+		childEvents:[]
 	}
 }
 

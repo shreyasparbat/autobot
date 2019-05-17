@@ -5,47 +5,68 @@ import CardContent from '@material-ui/core/CardContent'
 import axios from 'axios'
 
 // Other imports
-import './css/ClickCard.css'
+import './css/ReadCard.css'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import Input from '@material-ui/core/Input'
 
+// Redux imports
+import { connect } from 'react-redux'
+import { updateBot } from '../actions/botAction'
 
-export default class ClickCard extends React.Component {
+class ReadCard extends React.Component {
     // Retake mouse click
     pyURL = 'http://127.0.0.1:5000/'
-
     constructor(props){
         super(props)
         this.state = {
             xCoord: props.event.position[0],
-            yCoord: props.event.position[1]
+            yCoord: props.event.position[1],
+            varName: props.event.variable,
         }
     }
 
-    editClickEvent = () => {
-
+    retakeRead = () => {
+        const {index,field,parentId} = this.props;
+        axios.get(this.pyURL+'record-read-event/'+this.props.botName,{params:{
+            index,
+            field,
+            "parent":parentId
+        }}).then(reply=>{
+            console.log(reply.data)
+        })
     }
 
-    recordClickEvent = () => {
-
+    editReadEvent = () => {
+        const { index,field,parentId} = this.props;
+        const { xCoord , yCoord , varName} = this.state;
+        axios.get(this.pyURL+'edit-read-event/'+this.props.botName,{params:{
+            index,
+            field,
+            "parent":parentId,
+            xCoord,
+            yCoord,
+            varName
+        }}).then(reply=>{
+            this.props.updateBot(reply.data)
+        })
     }
 
     render() {
-        const {event,deleteEvent} = this.props;
+        const {start,end,field,parentId,deleteEvent,event} = this.props;
         return (
             <div 
-                className={'ui click-card'}
+                className={'ui read-card'}
             >
                 <Card elevation={3}>
-                    <Icon className={'delete-event-button'} onClick={deleteEvent}>
+                    <Icon className={'delete-event-button'} onClick={()=>{deleteEvent(start,end,field,parentId)}}>
                         clear
                     </Icon>
                     <CardContent className={'content'}>
                         <div className={'title'}>
                             <Typography variant="h5" component="h2">
-                                Click
+                                Read
                             </Typography>
                         </div>
                         <div style={{display:'flex',flexDirection:'row'}}>
@@ -61,10 +82,16 @@ export default class ClickCard extends React.Component {
                                 </Typography>
                                 <Input onBlur={this.editReadEvent} type="number" value={this.state.yCoord} onChange={(event)=>{this.setState({"yCoord":event.target.value})}}/>
                             </div>
+                            <div style={{padding:'5px',display:'flex',flexDirection:'row'}}>
+                                <Typography variant="h6">
+                                    as
+                                </Typography>
+                                <Input onBlur={this.editReadEvent} value={this.state.varName} onChange={(event)=>{this.setState({"varName":event.target.value})}}/>
+                            </div>
                         </div>
                         <div className={'retake-button'}>
-                            <Button variant={'contained'} color={'secondary'}>
-                                {event.position[0] == 0 && event.position[1] == 0 ? 'Retake Click' : 'Record Click'}
+                            <Button onClick={this.retakeRead} variant={'contained'} color={'secondary'}>
+                                Record read
                             </Button>
                         </div>
                     </CardContent>
@@ -73,3 +100,9 @@ export default class ClickCard extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    updateBot: (bot) => {dispatch(updateBot(bot))},
+})
+
+export default connect (null,mapDispatchToProps)(ReadCard)

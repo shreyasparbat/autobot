@@ -1,55 +1,16 @@
 {
-  "events": [
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "down",
-      "time": 64102562,
-      "window": 66094,
-      "windowName": "React App - Google Chrome",
-      "position": [
-        318,
-        57
-      ]
-    },
-    {
-      "type": "mouse",
-      "button": "left",
-      "direction": "up",
-      "time": 64102562,
-      "window": 66094,
-      "windowName": "React App - Google Chrome",
-      "position": [
-        318,
-        57
-      ]
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 64103015,
-      "window": 66094,
-      "windowName": "React App - Google Chrome",
-      "ascii": 0,
-      "key": "ctrlleft",
-      "nextKeys": [
-        "a",
-        "s",
-        "d",
-        "f"
-      ]
-    }
-  ],
+  "events": [],
+  "childEvents": [],
   "variables": [
     {
-      "name": "a",
-      "value": 500.0,
-      "type": "number"
+      "name": "asdf",
+      "value": "Guess123",
+      "type": "string"
     },
     {
-      "name": "b",
-      "value": 700.0,
-      "type": "number"
+      "name": "hello",
+      "value": "Guess",
+      "type": "string"
     }
   ]
 }

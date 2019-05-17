@@ -35,19 +35,12 @@ class ActivitiesPane extends React.Component {
     componentWillMount(){
         // console.log(this.props.bot.variables)
     }
-    selectActivity(activityIndex) {
-        // If card
-        if(activityIndex == 2){
-            axios.get(this.pyURL+'add-if-event/'+this.props.botName).then(reply=>{
-                this.props.updateBot(reply.data)
-            })
-        }
-        //Loop card
-        if(activityIndex == 3){
-            axios.get(this.pyURL+'add-loop-event/'+this.props.botName).then(reply=>{
-                this.props.updateBot(reply.data)
-            })
-        }
+    selectActivity(type) {
+        axios.get(this.pyURL+'add-event/'+this.props.botName,{params:{
+            type
+        }}).then(reply=>{
+            this.props.updateBot(reply.data)
+        })
     }
 
     addVariable = () => {
@@ -56,13 +49,10 @@ class ActivitiesPane extends React.Component {
             if(!this.props.bot.variables.find(e=>{
                 return e.name == newVarName
             })){
-                const newVar = {
-                    "name": newVarName,
-                    "value": newVarValue,
-                    "type": newVarType
-                }
                 axios.get(this.pyURL+'add-variable/'+this.props.botName,{params:{
-                    newVar: JSON.stringify(newVar)
+                    "name":newVarName,
+                    "value":newVarValue,
+                    "type":newVarType
                 }}).then((reply)=>{
                     this.props.updateBot(reply.data)
                 })
@@ -116,12 +106,12 @@ class ActivitiesPane extends React.Component {
                                 <Typography variant="h5" className={'list-header-text'}>Activities</Typography>
                             }/>
                         </ListSubheader>
-                        {['Mouse Click', 'Type', 'If','Loop'].map((text, index) => (
+                        {['Mouse Click', 'Type', 'If','Loop','Read'].map((text, index) => (
                             <Draggable type="activity" data={text}>
                                 <ListItem
                                     button
                                     key={text}
-                                    onClick={() => this.selectActivity(index)}
+                                    onClick={() => this.selectActivity(text.toLowerCase())}
                                 >
                                     <ListItemText primary={text} />
                                 </ListItem>

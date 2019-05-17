@@ -10,6 +10,7 @@ import ClickCard from './ClickCard'
 import TypingCard from './TypingCard'
 import IfCard from './IfCard'
 import LoopCard from './LoopCard'
+import ReadCard from './ReadCard'
 import './css/WorkflowPanel.css'
 import ArrowDown from './css/ArrowDown.svg'
 
@@ -38,24 +39,16 @@ class WorkflowPanel extends React.Component {
         console.log(data)
         console.log(event);
     }
-    deleteEvent = (start,end) => {
+    deleteEvent = (start,end,field,parentId,eventId) => {
         axios.get(this.pyURL+'delete-event/'+this.props.botName,{params:{
-            start,
-            end
-        }}).then((reply)=>{
-            this.props.updateBot(reply.data)
-        }) 
-    }
-
-    deleteSubEvent = (start,end,field,id) => {
-        axios.get(this.pyURL+'delete-sub-event/'+this.props.botName,{params:{
             start,
             end,
             field,
-            id
+            "parent":parentId,
+            eventId,
         }}).then((reply)=>{
             this.props.updateBot(reply.data)
-        })
+        }) 
     }
 
     reorderEvents = (order,sortable,event) => {
@@ -80,7 +73,7 @@ class WorkflowPanel extends React.Component {
                         let end = index
                         return (
                             <div key={event.time} data-id={JSON.stringify({start,end})}>
-                                <ClickCard deleteEvent={()=>{this.deleteEvent(start,end)}} />
+                                <ClickCard event={event} deleteEvent={()=>{this.deleteEvent(start,end)}} />
                                 <div className={'arrow-down'}>
                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                 </div>
@@ -121,7 +114,7 @@ class WorkflowPanel extends React.Component {
                         let end = endIndex;
                         return (
                             <div data-id={JSON.stringify({start,end})} key={event.time}>
-                                <TypingCard start={start} end={end} deleteEvent={this.deleteEvent} checkboxesDict={this.checkboxesDict} text={text} />
+                                <TypingCard event={event} start={start} end={end} deleteEvent={()=>{this.deleteEvent(start,end)}} checkboxesDict={this.checkboxesDict} text={text} />
                                 <div className={'arrow-down'}>
                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                 </div>
@@ -133,7 +126,7 @@ class WorkflowPanel extends React.Component {
                         let end = index;
                         return (
                             <div data-id={JSON.stringify({start,end})} key={event.time}>
-                                <IfCard deleteSubEvent={this.deleteSubEvent} deleteEvent={()=>{this.deleteEvent(start,end)}} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                <IfCard start={start} end={end} deleteEvent={this.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                 <div className={'arrow-down'}>
                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                 </div>
@@ -145,13 +138,25 @@ class WorkflowPanel extends React.Component {
                         let end = index;
                         return (
                             <div data-id={JSON.stringify({start,end})} key={event.time}>
-                                <LoopCard deleteSubEvent={this.deleteSubEvent} deleteEvent={()=>{this.deleteEvent(start,end)}} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                <LoopCard start={start} end={end} deleteEvent={this.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                 <div className={'arrow-down'}>
                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                 </div>
                             </div>
                         )
-                    }                         
+                    }     
+                    if(event.type == 'read'){
+                        let start = index;
+                        let end = index;
+                        return (
+                            <div data-id={JSON.stringify({start,end})} key={event.time}>
+                                <ReadCard start={start} end={end} index={index} deleteEvent={this.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                <div className={'arrow-down'}>
+                                    <img src={ArrowDown} alt={'arrow-down'}/>
+                                </div>
+                            </div>
+                        )
+                    }                    
                 }
             })
         return (

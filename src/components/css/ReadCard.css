@@ -1,0 +1,23 @@
+.read-card {
+    max-width: 275px;
+    padding: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.retake-button {
+    text-align: center;
+}
+
+.delete-event-button {
+	position:relative;
+	right:7px;
+	top:7px;
+	float:right;
+	cursor: pointer;
+}
