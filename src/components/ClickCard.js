@@ -11,6 +11,21 @@ import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import Input from '@material-ui/core/Input'
 
+/**
+ *  ClickCard.js
+ *      Renders the Click event
+ *      Rendered in WorkflowPanel.js
+ *                  LoopCard.js
+ *                  IfCard.js
+ *
+ *      Props:
+ *          start (Number: represents the start index of the click event in its respective events array)(required)
+ *          end (Number: represents the end index of the click event in its respective events array)(required)
+ *          event (Obj: represents the click event)(required)
+ *          deleteEvent (Function: Function to delete this event from the bot)(required)
+ *          parent (String: id which represents the parent event if there is any)(as required)
+ *          field (String: represents the field of the parent event that it belongs to)(as required)
+ */
 
 export default class ClickCard extends React.Component {
     // Retake mouse click

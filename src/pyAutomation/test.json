@@ -1,5 +1,75 @@
 {
-  "events": [],
+  "events": [
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "down",
+      "time": 324073984,
+      "window": 17433804,
+      "windowName": "React App - Google Chrome",
+      "position": [
+        330,
+        48
+      ]
+    },
+    {
+      "type": "mouse",
+      "button": "left",
+      "direction": "up",
+      "time": 324073984,
+      "window": 17433804,
+      "windowName": "React App - Google Chrome",
+      "position": [
+        330,
+        48
+      ]
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 324074140,
+      "window": 17433804,
+      "windowName": "React App - Google Chrome",
+      "ascii": 0,
+      "key": "h"
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 324074203,
+      "window": 17433804,
+      "windowName": "React App - Google Chrome",
+      "ascii": 0,
+      "key": "e"
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 324074281,
+      "window": 17433804,
+      "windowName": "React App - Google Chrome",
+      "ascii": 0,
+      "key": "l"
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 324074390,
+      "window": 17433804,
+      "windowName": "React App - Google Chrome",
+      "ascii": 0,
+      "key": "l"
+    },
+    {
+      "type": "keyboard",
+      "messageName": "key down",
+      "time": 324074578,
+      "window": 17433804,
+      "windowName": "React App - Google Chrome",
+      "ascii": 0,
+      "key": "o"
+    }
+  ],
   "childEvents": [],
   "variables": [
     {

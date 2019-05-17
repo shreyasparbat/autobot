@@ -15,6 +15,21 @@ import Input from '@material-ui/core/Input'
 import { connect } from 'react-redux'
 import { updateBot } from '../actions/botAction'
 
+/**
+ *  ReadCard.js
+ *      Renders the Read event
+ *      Rendered in WorkflowPanel.js
+ *                  LoopCard.js
+ *                  IfCard.js
+ *
+ *      Props:
+ *          index (Number: represents the index of the read event in its respective events array)(required)
+ *          event (Obj: represents the read event)(required)
+ *          deleteEvent (Function: Function to delete this event from the bot)(required)
+ *          parent (String: id which represents the parent event if there is any)(as required)
+ *          field (String: represents the field of the parent event that it belongs to)(as required)
+ */
+
 class ReadCard extends React.Component {
     // Retake mouse click
     pyURL = 'http://127.0.0.1:5000/'
@@ -28,23 +43,23 @@ class ReadCard extends React.Component {
     }
 
     retakeRead = () => {
-        const {index,field,parentId} = this.props;
+        const {index,field,parent} = this.props;
         axios.get(this.pyURL+'record-read-event/'+this.props.botName,{params:{
             index,
             field,
-            "parent":parentId
+            parent
         }}).then(reply=>{
             console.log(reply.data)
         })
     }
 
     editReadEvent = () => {
-        const { index,field,parentId} = this.props;
+        const { index,field,parent} = this.props;
         const { xCoord , yCoord , varName} = this.state;
         axios.get(this.pyURL+'edit-read-event/'+this.props.botName,{params:{
             index,
             field,
-            "parent":parentId,
+            parent,
             xCoord,
             yCoord,
             varName
@@ -54,13 +69,13 @@ class ReadCard extends React.Component {
     }
 
     render() {
-        const {start,end,field,parentId,deleteEvent,event} = this.props;
+        const {index,field,parent,deleteEvent,event} = this.props;
         return (
             <div 
                 className={'ui read-card'}
             >
                 <Card elevation={3}>
-                    <Icon className={'delete-event-button'} onClick={()=>{deleteEvent(start,end,field,parentId)}}>
+                    <Icon className={'delete-event-button'} onClick={()=>{deleteEvent(index,index,field,parent)}}>
                         clear
                     </Icon>
                     <CardContent className={'content'}>

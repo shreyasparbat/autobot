@@ -25,6 +25,24 @@ import './css/TypingCard.css'
 import {connect} from 'react-redux'
 import {updateBot} from '../actions/botAction'
 
+/**
+ *  TypingCard.js
+ *      Renders the Typing event
+ *      Rendered in WorkflowPanel.js
+ *                  LoopCard.js
+ *                  IfCard.js
+ *
+ *      Props:
+ *          start (Number: represents the start index of the typing event in its respective events array)(required)
+ *          end (Number: represents the end index of the typing event in its respective events array)(required)
+ *          event (Obj: represents the typing event)(required)
+ *          text (String: represents the resultant text rendered in the text box)(required)
+ *          deleteEvent (Function: Function to delete this event from the bot)(required)
+ *          checkboxesDict (Obj: object which represents which special keys are checked)(required)
+ *          parent (String: id which represents the parent event if there is any)(as required)
+ *          field (String: represents the field of the parent event that it belongs to)(as required)
+ */
+
 class TypingCard extends React.Component {
     state = {
         checkedCtrl: this.props.checkboxesDict.ctrlleft,

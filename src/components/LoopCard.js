@@ -23,6 +23,22 @@ import {Droppable} from 'react-drag-and-drop'
 import {connect} from 'react-redux';
 import {updateBot} from '../actions/botAction'
 
+/**
+ *  LoopCard.js
+ *      Renders the Loop event
+ *      Rendered in WorkflowPanel.js
+ *                  LoopCard.js
+ *                  IfCard.js
+ *
+ *      Props:
+ *          start (Number: represents the start index of the loop event in its respective events array)(required)
+ *          end (Number: represents the end index of the loop event in its respective events array)(required)
+ *          event (Obj: represents the loop event)(required)
+ *          deleteEvent (Function: Function to delete this event from the bot)(required)
+ *          parent (String: id which represents the parent event if there is any)(as required)
+ *          field (String: represents the field of the parent event that it belongs to)(as required)
+ */
+
 class LoopCard extends React.Component {
     // Retake mouse click
     constructor(props){
@@ -68,7 +84,7 @@ class LoopCard extends React.Component {
     }
 
     render() {
-        const { event , start , end , field , parentId , } = this.props
+        const { event , start , end , field , parent , } = this.props
         const { events , id } = event
         console.log(this.props)
         return (
@@ -78,7 +94,7 @@ class LoopCard extends React.Component {
             >
                 <div className={'ui if-card'}>
                     <Card elevation={3}>
-                        <Icon className={'delete-event-button'} onClick={()=>{this.props.deleteEvent(start,end,field,parentId,id)}}>
+                        <Icon className={'delete-event-button'} onClick={()=>{this.props.deleteEvent(start,end,field,parent,id)}}>
                             clear
                         </Icon>
                         <CardContent className={'content'}>
@@ -113,7 +129,7 @@ class LoopCard extends React.Component {
                                                 let end = index;
                                                 return (
                                                     <div>
-                                                        <ClickCard event={event} deleteEvent={()=>{this.props.deleteEvent(start,end,'events',id)}} />
+                                                        <ClickCard start={start} end={end} field={'events'} event={event} deleteEvent={()=>{this.props.deleteEvent(start,end,'events',id)}} />
                                                         <div className={'arrow-down'}>
                                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                                         </div>
@@ -165,7 +181,7 @@ class LoopCard extends React.Component {
                                                 let end = index;
                                                 return (
                                                     <div data-id={JSON.stringify({start,end})} key={event.time}>
-                                                        <IfCard start={start} end={end} field={'events'} parentId={id} deleteEvent={this.props.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                                        <IfCard start={start} end={end} field={'events'} parent={id} deleteEvent={this.props.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                                         <div className={'arrow-down'}>
                                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                                         </div>
@@ -177,7 +193,7 @@ class LoopCard extends React.Component {
                                                 let end = index;
                                                 return (
                                                     <div data-id={JSON.stringify({start,end})} key={event.time}>
-                                                        <LoopCard start={start} end={end} field={'events'} parentId={id} deleteEvent={this.props.deleteEvent} bot={this.props.bot} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                                        <LoopCard start={start} end={end} field={'events'} parent={id} deleteEvent={this.props.deleteEvent} bot={this.props.bot} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                                         <div className={'arrow-down'}>
                                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                                         </div>
@@ -189,7 +205,7 @@ class LoopCard extends React.Component {
                                                 let end = index;
                                                 return (
                                                     <div data-id={JSON.stringify({start,end})} key={event.time}>
-                                                        <ReadCard start={start} end={end} index={index} field={'events'} parentId={id} deleteEvent={this.props.deleteEvent} bot={this.props.bot} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                                        <ReadCard start={start} end={end} index={index} field={'events'} parent={id} deleteEvent={this.props.deleteEvent} bot={this.props.bot} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
                                                         <div className={'arrow-down'}>
                                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                                         </div>

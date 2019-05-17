@@ -39,12 +39,12 @@ class WorkflowPanel extends React.Component {
         console.log(data)
         console.log(event);
     }
-    deleteEvent = (start,end,field,parentId,eventId) => {
+    deleteEvent = (start,end,field,parent,eventId) => {
         axios.get(this.pyURL+'delete-event/'+this.props.botName,{params:{
             start,
             end,
             field,
-            "parent":parentId,
+            parent,
             eventId,
         }}).then((reply)=>{
             this.props.updateBot(reply.data)
