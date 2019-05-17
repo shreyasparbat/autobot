@@ -113,7 +113,7 @@ class LoopCard extends React.Component {
                                                 let end = index;
                                                 return (
                                                     <div>
-                                                        <ClickCard deleteEvent={()=>{this.props.deleteEvent(start,end,'events',id)}} />
+                                                        <ClickCard event={event} deleteEvent={()=>{this.props.deleteEvent(start,end,'events',id)}} />
                                                         <div className={'arrow-down'}>
                                                             <img src={ArrowDown} alt={'arrow-down'}/>
                                                         </div>

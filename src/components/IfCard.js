@@ -174,7 +174,7 @@ class IfCard extends React.Component {
                                                     let end = index;
                                                     return (
                                                         <div key={JSON.stringify(event)}>
-                                                            <ClickCard deleteEvent={()=>{this.props.deleteEvent(start,end,'trueEvents',id)}} />
+                                                            <ClickCard event={event} deleteEvent={()=>{this.props.deleteEvent(start,end,'trueEvents',id)}} />
                                                             <div className={'arrow-down'}>
                                                                 <img src={ArrowDown} alt={'arrow-down'}/>
                                                             </div>
@@ -282,6 +282,7 @@ class IfCard extends React.Component {
                                                 return (
                                                     <div>
                                                         <ClickCard 
+                                                            event={event}
                                                             deleteEvent={()=>{this.props.deleteEvent(start,end,'falseEvents',id)}}
                                                         />
                                                         <div className={'arrow-down'}>

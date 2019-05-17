@@ -29,7 +29,15 @@ export default class ClickCard extends React.Component {
     }
 
     recordClickEvent = () => {
-
+        const { start ,end , parent, field } = this.props
+        axios.get(this.pyURL+'record-click-event/test',{params:{
+            start,
+            end,
+            parent,
+            field
+        }}).then((reply)=>{
+            console.log(reply)
+        })
     }
 
     render() {
@@ -63,8 +71,8 @@ export default class ClickCard extends React.Component {
                             </div>
                         </div>
                         <div className={'retake-button'}>
-                            <Button variant={'contained'} color={'secondary'}>
-                                {event.position[0] == 0 && event.position[1] == 0 ? 'Retake Click' : 'Record Click'}
+                            <Button onClick={this.recordClickEvent} variant={'contained'} color={'secondary'}>
+                                {event.position[0] == 0 && event.position[1] == 0 ? 'Record Click' : 'Retake Click'}
                             </Button>
                         </div>
                     </CardContent>

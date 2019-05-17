@@ -73,7 +73,7 @@ class WorkflowPanel extends React.Component {
                         let end = index
                         return (
                             <div key={event.time} data-id={JSON.stringify({start,end})}>
-                                <ClickCard event={event} deleteEvent={()=>{this.deleteEvent(start,end)}} />
+                                <ClickCard start={start} end={end} event={event} deleteEvent={()=>{this.deleteEvent(start,end)}} />
                                 <div className={'arrow-down'}>
                                     <img src={ArrowDown} alt={'arrow-down'}/>
                                 </div>

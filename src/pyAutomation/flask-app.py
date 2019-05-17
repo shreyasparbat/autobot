@@ -67,6 +67,29 @@ def record_child(bot_name):
     # Exit route
     return 'success'
 
+@app.route('/record-read-event/<bot_name>',methods=['GET'])
+def record_read_event(bot_name):
+    index  = request.args.get('index', None)
+    parent_event_id = request.args.get('parent','')
+    child_event_field = request.args.get('field','')
+
+    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
+
+    os.system('python read-recorder.py ' + bot_name + ' ' + index + ' ' + parent_event_id + ' ' + child_event_field)
+    return 'success'
+
+@app.route('/record-click-event/<bot_name>',methods=['GET'])
+def record_click_event(bot_name):
+    down_click = request.args.get('start',None)
+    up_click = request.args.get('end',None)
+    parent_event_id = request.args.get('parent','main')
+    child_event_field = request.args.get('field','')
+
+    bot_file_path = os.path.join(os.getcwd(), bot_name+ '.json')
+
+    os.system('python click-recorder.py ' + bot_name + ' ' + down_click + ' ' + up_click + ' ' + parent_event_id + ' ' + child_event_field)
+    return 'success'
+
 @app.route('/play/<bot_name>')
 def play(bot_name):
     # Execute one mouse event
@@ -648,22 +671,6 @@ def edit_loop_event(bot_name):
     with open(bot_file_path,'w') as bot_file:
         json.dump(bot,bot_file,indent=2)
     return('success')
-
-@app.route('/record-read-event/<bot_name>',methods=['GET'])
-def record_read_event(bot_name):
-    index  = request.args.get('index', None)
-    parent_event_id = request.args.get('parent','')
-    child_event_field = request.args.get('field','')
-
-    bot_file_path = os.path.join(os.getcwd(), bot_name + '.json')
-
-    with open(bot_file_path) as bot_file:
-        bot = json.load(bot_file)
-        events = bot["events"]
-        child_events = bot["childEvents"]
-
-    os.system('python read-recorder.py ' + bot_name + ' ' + index + ' ' + parent_event_id + ' ' + child_event_field)
-    return 'success'
 
 @app.route('/edit-read-event/<bot_name>',methods=['GET'])
 def edit_read_event(bot_name):
