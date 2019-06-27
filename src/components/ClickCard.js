@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import Input from '@material-ui/core/Input'
+import Snackbar from '@material-ui/core/Snackbar';
 
 /**
  *  ClickCard.js
@@ -71,14 +72,14 @@ export default class ClickCard extends React.Component {
                                 Click
                             </Typography>
                         </div>
-                        <div style={{display:'flex',flexDirection:'row'}}>
-                            <div style={{padding:'5px',display:'flex',flexDirection:'row'}}>
+                        <div className={'coordinates-container'}>
+                            <div className={'coordinate-container'}>
                                 <Typography variant="h6">
                                     x:
                                 </Typography>
                                 <Input onBlur={this.editReadEvent} type="number" value={this.state.xCoord} onChange={(event)=>{this.setState({"xCoord":event.target.value})}}/>
                             </div>
-                            <div style={{padding:'5px',display:'flex',flexDirection:'row'}}>
+                            <div className={'coordinate-container'}>
                                 <Typography variant="h6">
                                     y:
                                 </Typography>

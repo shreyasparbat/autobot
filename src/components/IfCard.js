@@ -13,6 +13,7 @@ import Input from '@material-ui/core/Input';
 import ClickCard from './ClickCard'
 import TypingCard from './TypingCard'
 import LoopCard from './LoopCard'
+import ReadCard from './ReadCard'
 import ArrowDown from './css/ArrowDown.svg'
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
@@ -271,6 +272,18 @@ class IfCard extends React.Component {
                                                         </div>
                                                     )
                                                 }
+                                                if(event.type == 'read'){
+                                                    let start = index;
+                                                    let end = index;
+                                                    return (
+                                                        <div data-id={JSON.stringify({start,end})} key={event.time}>
+                                                            <ReadCard start={start} end={end} index={index} field={'trueEvents'} parent={id} deleteEvent={this.props.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                                            <div className={'arrow-down'}>
+                                                                <img src={ArrowDown} alt={'arrow-down'}/>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }    
                                             })
                                         }
                                     <Button onClick={()=>{this.recordChildEvents(id,'trueEvents')}}variant={'contained'} color={'secondary'}>
@@ -384,6 +397,18 @@ class IfCard extends React.Component {
                                                     </div>
                                                 )
                                             }
+                                            if(event.type == 'read'){
+                                                let start = index;
+                                                let end = index;
+                                                return (
+                                                    <div data-id={JSON.stringify({start,end})} key={event.time}>
+                                                        <ReadCard start={start} end={end} index={index} field={'falseEvents'} parent={id} deleteEvent={this.props.deleteEvent} event={event} variables={this.props.bot.variables} botName={this.props.botName}/>
+                                                        <div className={'arrow-down'}>
+                                                            <img src={ArrowDown} alt={'arrow-down'}/>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }    
                                         })
                                         }
                                     <Button onClick={()=>{this.recordChildEvents(id,'falseEvents')}}variant={'contained'} color={'secondary'}>

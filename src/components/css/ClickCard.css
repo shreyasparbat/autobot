@@ -21,3 +21,15 @@
 	float:right;
 	cursor: pointer;
 }
+
+.coordinates-container {
+    margin-top:8px;
+    margin-bottom:8px;
+    display:flex;
+    flex-direction:row;
+}
+.coordinate-container {
+    padding:5px;
+    display:flex;
+    flex-direction:row;
+}

@@ -6,8 +6,8 @@
       "direction": "down",
       "time": 1558241432.0377262,
       "position": [
-        385,
-        6
+        741,
+        15
       ]
     },
     {
@@ -16,8 +16,8 @@
       "direction": "up",
       "time": 1558241432.0377262,
       "position": [
-        385,
-        6
+        741,
+        15
       ]
     },
     {
@@ -260,8 +260,8 @@
       "window": 65760,
       "windowName": "Running applications",
       "position": [
-        634,
-        883
+        644,
+        879
       ]
     },
     {
@@ -272,8 +272,8 @@
       "window": 65760,
       "windowName": "Running applications",
       "position": [
-        634,
-        883
+        644,
+        879
       ]
     },
     {
@@ -462,7 +462,7 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        946,
+        961,
         663
       ]
     },
@@ -474,7 +474,7 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        946,
+        961,
         663
       ]
     },
@@ -708,15 +708,6 @@
       "key": "down"
     },
     {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 492845656,
-      "window": 7471394,
-      "windowName": "Statement of Claim Sample - Word",
-      "ascii": 0,
-      "key": "down"
-    },
-    {
       "type": "mouse",
       "button": "left",
       "direction": "down",
@@ -724,8 +715,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        638,
-        187
+        691,
+        171
       ]
     },
     {
@@ -736,8 +727,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        638,
-        187
+        691,
+        171
       ]
     },
     {
@@ -752,8 +743,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        652,
-        208
+        691,
+        195
       ]
     },
     {
@@ -764,8 +755,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        652,
-        208
+        691,
+        195
       ]
     },
     {
@@ -780,8 +771,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        637,
-        231
+        649,
+        219
       ]
     },
     {
@@ -792,8 +783,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        637,
-        231
+        649,
+        219
       ]
     },
     {
@@ -808,8 +799,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        656,
-        309
+        659,
+        294
       ]
     },
     {
@@ -820,8 +811,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        656,
-        309
+        659,
+        294
       ]
     },
     {
@@ -836,8 +827,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        660,
-        331
+        667,
+        319
       ]
     },
     {
@@ -848,8 +839,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        660,
-        331
+        667,
+        319
       ]
     },
     {
@@ -864,8 +855,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        658,
-        357
+        655,
+        343
       ]
     },
     {
@@ -876,8 +867,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        658,
-        357
+        655,
+        343
       ]
     },
     {
@@ -892,8 +883,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        664,
-        419
+        652,
+        407
       ]
     },
     {
@@ -904,8 +895,8 @@
       "window": 3473686,
       "windowName": "Microsoft Word Document",
       "position": [
-        664,
-        419
+        652,
+        407
       ]
     },
     {
@@ -935,15 +926,6 @@
         671,
         404
       ]
-    },
-    {
-      "type": "keyboard",
-      "messageName": "key down",
-      "time": 492857468,
-      "window": 7471394,
-      "windowName": "Statement of Claim Sample - Word",
-      "ascii": 0,
-      "key": "down"
     },
     {
       "type": "keyboard",
@@ -1166,45 +1148,65 @@
       "type": "if",
       "parent": "main",
       "varA": "adultery",
-      "varB": "Yes",
+      "varB": "No",
       "operator": "==",
       "trueEvents": [
         {
           "type": "mouse",
           "button": "left",
           "direction": "down",
-          "time": 498821187,
+          "time": 495300015,
           "window": 3473686,
           "windowName": "Microsoft Word Document",
           "position": [
-            539,
-            613
+            777,
+            527
           ]
         },
         {
           "type": "mouse",
           "button": "left",
           "direction": "up",
-          "time": 498821296,
+          "time": 495300093,
           "window": 3473686,
           "windowName": "Microsoft Word Document",
           "position": [
-            539,
-            613
+            777,
+            527
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495300609,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            815,
+            527
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495301906,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            493,
+            511
           ]
         },
         {
           "type": "keyboard",
-          "variable": "(a)"
-        },
-        {
-          "type": "keyboard",
           "messageName": "key down",
-          "time": 500822234,
-          "window": 1704918,
-          "windowName": "React App - Google Chrome",
-          "ascii": 13,
-          "key": "return"
+          "time": 495302750,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
         }
       ],
       "falseEvents": []
@@ -1214,21 +1216,74 @@
       "type": "if",
       "parent": "main",
       "varA": "poor_behaviour",
-      "varB": "Yes",
+      "varB": "No",
       "operator": "==",
       "trueEvents": [
         {
-          "type": "keyboard",
-          "variable": "(b)"
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495314015,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            855,
+            571
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495314109,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            855,
+            571
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495314656,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            875,
+            567
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495315562,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            477,
+            556
+          ]
         },
         {
           "type": "keyboard",
           "messageName": "key down",
-          "time": 500827109,
-          "window": 1704918,
-          "windowName": "React App - Google Chrome",
-          "ascii": 13,
-          "key": "return"
+          "time": 495316156,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 127,
+          "key": "backspace"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 495317625,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 127,
+          "key": "backspace"
         }
       ],
       "falseEvents": []
@@ -1238,21 +1293,41 @@
       "type": "if",
       "parent": "main",
       "varA": "deserted",
-      "varB": "Yes",
+      "varB": "No",
       "operator": "==",
       "trueEvents": [
         {
-          "type": "keyboard",
-          "variable": "(c)"
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495802500,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            920,
+            575
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495804375,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            496,
+            560
+          ]
         },
         {
           "type": "keyboard",
           "messageName": "key down",
-          "time": 501352343,
-          "window": 1704918,
-          "windowName": "React App - Google Chrome",
-          "ascii": 13,
-          "key": "return"
+          "time": 495805375,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
         }
       ],
       "falseEvents": []
@@ -1262,12 +1337,65 @@
       "type": "if",
       "parent": "main",
       "varA": "consent_to_judgement",
-      "varB": "Yes",
+      "varB": "No",
       "operator": "==",
       "trueEvents": [
         {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495467890,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            687,
+            701
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495467984,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            687,
+            701
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495468531,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            711,
+            704
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495469390,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            493,
+            633
+          ]
+        },
+        {
           "type": "keyboard",
-          "variable": "(d)"
+          "messageName": "key down",
+          "time": 495470000,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
         }
       ],
       "falseEvents": []
@@ -1277,12 +1405,110 @@
       "type": "if",
       "parent": "main",
       "varA": "lived_apart",
-      "varB": "Yes",
+      "varB": "No",
       "operator": "==",
       "trueEvents": [
         {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495863171,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            947,
+            692
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495863250,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            947,
+            692
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "down",
+          "time": 495864093,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            949,
+            695
+          ]
+        },
+        {
+          "type": "mouse",
+          "button": "left",
+          "direction": "up",
+          "time": 495865750,
+          "window": 3473686,
+          "windowName": "Microsoft Word Document",
+          "position": [
+            535,
+            679
+          ]
+        },
+        {
           "type": "keyboard",
-          "variable": "(e)"
+          "messageName": "key down",
+          "time": 495866687,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 495867328,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 495867750,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 495868109,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 495868453,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
+        },
+        {
+          "type": "keyboard",
+          "messageName": "key down",
+          "time": 495868843,
+          "window": 7471394,
+          "windowName": "Statement of Claim Sample - Word",
+          "ascii": 0,
+          "key": "backspace"
         }
       ],
       "falseEvents": []
@@ -1378,36 +1604,6 @@
     {
       "name": "No",
       "value": "No",
-      "type": "string"
-    },
-    {
-      "name": "(a)",
-      "value": "(a) That the Defendant has committed adultery and the Plaintiff finds it intolerable to live with the Defendant.",
-      "type": "string"
-    },
-    {
-      "name": "(b)",
-      "value": "That the Defendant has behaved in such a way that the Plaintiff cannot reasonably be expected to live with the Defendant.",
-      "type": ""
-    },
-    {
-      "name": "(c)",
-      "value": "That the Defendant has deserted the Plaintiff for a continuous period of at least 2 years immediately preceding the filing of the writ.",
-      "type": ""
-    },
-    {
-      "name": "(d)",
-      "value": "That the parties to the marriage have lived apart for a continuous period of at least 3 years immediately preceding the filing of the writ and the Defendant consents to a judgment being granted. [The Statement of Particulars is to annex a copy of the Defendant\u2019s consent if available.]",
-      "type": ""
-    },
-    {
-      "name": "(e)",
-      "value": "That the parties to the marriage have lived apart for a continuous period of at least 4 years immediately preceding the filing of the writ.",
-      "type": ""
-    },
-    {
-      "name": "Yes",
-      "value": "Yes",
       "type": "string"
     }
   ]

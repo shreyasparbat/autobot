@@ -40,6 +40,8 @@ class WorkflowPanel extends React.Component {
         console.log(event);
     }
     deleteEvent = (start,end,field,parent,eventId) => {
+        console.log(field)
+        console.log(parent)
         axios.get(this.pyURL+'delete-event/'+this.props.botName,{params:{
             start,
             end,
@@ -101,7 +103,7 @@ class WorkflowPanel extends React.Component {
                         } else {
                             for (let i = index + 1; i < this.props.bot.events.length; i++) {
                                 const nextEvent = this.props.bot.events[i]
-                                if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key)) {
+                                if (nextEvent.type === 'keyboard' && !this.specialKeys.includes(nextEvent.key) && !nextEvent.variable) {
                                     text += nextEvent.key
                                     this.vetoedIndexes.push(i)
                                     endIndex++

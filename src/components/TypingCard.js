@@ -17,6 +17,7 @@ import Tab from '@material-ui/core/Tab';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
+import Snackbar from '@material-ui/core/Snackbar';
 
 // CSS import
 import './css/TypingCard.css'
@@ -52,6 +53,7 @@ class TypingCard extends React.Component {
         text: this.props.text,
         variable: this.props.event.variable,
         tabValue: this.props.text ? 0 : 1,
+        snackbarOpen: false,
     }
     pyURL = 'http://127.0.0.1:5000/'
 
@@ -82,6 +84,7 @@ class TypingCard extends React.Component {
         // }
         let typingEvent;
         if(tabValue == 0){
+            // Typing event is raw text
             typingEvent = {
                 start,
                 end,
@@ -91,6 +94,7 @@ class TypingCard extends React.Component {
                 field
             }
         } else {
+            // Typing event is a variable
             typingEvent = {
                 start,
                 end,
@@ -104,6 +108,11 @@ class TypingCard extends React.Component {
             ...typingEvent
         }}).then((reply)=>{
             this.props.updateBot(reply.data)
+            if(!this.state.snackbarOpen){
+                this.setState({
+                    snackbarOpen:true
+                })                
+            }
         })
     }
 
@@ -199,7 +208,7 @@ class TypingCard extends React.Component {
                             {
                                 this.state.tabValue === 1 && 
                                 <Select
-                                    className={'if-card-option'}
+                                    className={'variables-dropdown'}
                                     value={this.state.variable ? this.state.variable : ''}
                                     onChange={(event)=>{
                                         this.setState({
@@ -223,6 +232,19 @@ class TypingCard extends React.Component {
                         </Grid>
                     </CardContent>
                 </Card>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  open={this.state.snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={()=>{this.setState({snackbarOpen:false})}}
+                  ContentProps={{
+                    'aria-describedby': 'message-id',
+                  }}
+                  message={<span id="message-id">Changes saved!</span>}
+                />
             </div>
         )
     }

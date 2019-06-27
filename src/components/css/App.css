@@ -1,10 +1,10 @@
 .app-top-bar {
-    width: calc(100% - 280px);
-    margin-left: 280px;
+    width: calc(100% - 330px);
+    margin-left: 330px;
 }
 
 .workflow-panel {
-    width: calc(100% - 280px);
-    margin-left: 280px;
+    width: calc(100% - 330px);
+    margin-left: 330px;
     margin-top: 50px;
 }

@@ -97,7 +97,7 @@ def play(bot_name):
         # If down direction
         if event['direction'] == 'down':
             # Pause python
-            time.sleep(2)
+            # time.sleep(2)
             pyautogui.mouseDown(button=event['button'], x=event['position'][0], y=event['position'][1])
 
         # If up direction
@@ -113,8 +113,13 @@ def play(bot_name):
                 if variable["name"] == variable_name:
                     variable_value = variable["value"]
                     break
-            for key in variable_value:
-                pyautogui.press(key)
+            # for key in variable_value:
+            #     pyautogui.press(key)
+            pyperclip.copy(variable_value)
+            pyautogui.keyDown('ctrl')
+            pyautogui.keyDown('v')
+            pyautogui.keyUp('ctrl')
+            pyautogui.keyUp('v')
         except KeyError:
             # If ctrl/shift
             if event['key'] == 'shiftleft' or event['key'] == 'ctrlleft':
@@ -163,8 +168,8 @@ def play(bot_name):
         # Double click then Ctrl + c to copy text to clipboard
         pyautogui.mouseDown(button='left', x=event['position'][0], y=event['position'][1])
         pyautogui.mouseUp(button='left', x=event['position'][0], y=event['position'][1])
-        pyautogui.mouseDown(button='left', x=event['position'][0], y=event['position'][1])
-        pyautogui.mouseUp(button='left', x=event['position'][0], y=event['position'][1])
+        # pyautogui.mouseDown(button='left', x=event['position'][0], y=event['position'][1])
+        # pyautogui.mouseUp(button='left', x=event['position'][0], y=event['position'][1])
         pyautogui.keyDown('ctrl')
         pyautogui.keyDown('c')
         pyautogui.keyUp('ctrl')
@@ -685,6 +690,7 @@ def edit_read_event(bot_name):
     with open(bot_file_path) as bot_file:
         bot = json.load(bot_file)
         events = bot["events"]
+        variables = bot["variables"]
         child_events = bot["childEvents"]
 
     if parent_event_id:
@@ -716,6 +722,18 @@ def edit_read_event(bot_name):
         "variable": var_name
     }
     target_events[index] = new_read_event
+    variable_found = False
+
+    for variable in variables:
+        if variable["name"] == var_name:
+            variable_found = True
+            break
+    if (variable_found == False) & (var_name != ''):
+        variables.append({
+            "name": var_name,
+            "value": '',
+            "type": 'string'
+        })
     with open(bot_file_path,'w') as bot_file:
         json.dump(bot,bot_file,indent=2)
     return(jsonify(bot))

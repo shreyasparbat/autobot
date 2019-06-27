@@ -132,7 +132,7 @@ class ActivitiesPane extends React.Component {
                                 key={variable.name}
                                 onClick={() => this.selectActivity(index)}
                             >
-                                <ListItemText style={{padding:'0',textAlign:'right',width:'75px','wordBreak':'break-all'}} primary={variable.name} />
+                                <ListItemText style={{padding:'0',textAlign:'right',width:'120px','wordBreak':'break-all'}} primary={variable.name} />
                                 <ListItemText primary={'='} />
                                 <Input  style={{width:'50px'}} onBlur={(event)=>{this.editVariable(variable.name,variable.value,event.target.value)}} defaultValue={variable.value}/>
                                 <Button onClick={()=>{this.deleteVariable(index)}}>

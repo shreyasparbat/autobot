@@ -97,11 +97,11 @@ class ReadCard extends React.Component {
                                 </Typography>
                                 <Input onBlur={this.editReadEvent} type="number" value={this.state.yCoord} onChange={(event)=>{this.setState({"yCoord":event.target.value})}}/>
                             </div>
-                            <div style={{padding:'5px',display:'flex',flexDirection:'row'}}>
+                            <div style={{width:'50px',padding:'5px',display:'flex',flexDirection:'row'}}>
                                 <Typography variant="h6">
                                     as
                                 </Typography>
-                                <Input onBlur={this.editReadEvent} value={this.state.varName} onChange={(event)=>{this.setState({"varName":event.target.value})}}/>
+                                <Input style={{width:'40px'}} onBlur={this.editReadEvent} value={this.state.varName} onChange={(event)=>{this.setState({"varName":event.target.value})}}/>
                             </div>
                         </div>
                         <div className={'retake-button'}>

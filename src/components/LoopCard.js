@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent'
 import axios from 'axios'
 
 // Other imports
-import './css/IfCard.css'
+import './css/LoopCard.css'
 import Typography from '@material-ui/core/Typography'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -92,7 +92,7 @@ class LoopCard extends React.Component {
                 types={['activity']} // <= allowed drop types
                 onDrop={this.onDrop}
             >
-                <div className={'ui if-card'}>
+                <div className={'ui loop-card'}>
                     <Card elevation={3}>
                         <Icon className={'delete-event-button'} onClick={()=>{this.props.deleteEvent(start,end,field,parent,id)}}>
                             clear
